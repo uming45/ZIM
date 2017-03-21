@@ -39,6 +39,10 @@ import org.greenrobot.eventbus.ThreadMode;
  * @author: laohu on 2016/12/24
  * @site: http://ittiger.cn
  */
+
+/**
+ * 删除NavigationView.OnNavigationItemSelectedListener,
+ */
 public class MainActivity extends IMBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         TabHost.OnTabChangeListener, Toolbar.OnMenuItemClickListener {
@@ -61,6 +65,10 @@ public class MainActivity extends IMBaseActivity
     Toolbar mToolbar;
     @BindView(R.id.toolbarTitle)
     TextView mToolbarTitle;
+
+    /**
+     * 抽屉导航DrawerLayout
+     */
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_container)
@@ -87,15 +95,18 @@ public class MainActivity extends IMBaseActivity
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);//不显示ToolBar的标题
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
+        /**
+         * 注释掉切换抽屉代码
+         */
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        mDrawerLayout.setDrawerListener(toggle);
+//        toggle.syncState();
 
         mNavigationView.setNavigationItemSelectedListener(this);
         mToolbar.setNavigationIcon(R.drawable.ic_toolbar_avatar);
         mToolbar.setOnMenuItemClickListener(this);
-        mDrawerLayout.addDrawerListener(new NavDrawerListener());
+//        mDrawerLayout.addDrawerListener(new NavDrawerListener());
     }
 
     /**
@@ -196,6 +207,9 @@ public class MainActivity extends IMBaseActivity
         }
     }
 
+    /**
+     * 为抽屉内部设置监听器
+     */
     class NavDrawerListener implements DrawerLayout.DrawerListener {
 
         @Override
