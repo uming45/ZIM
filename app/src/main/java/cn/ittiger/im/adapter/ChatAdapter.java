@@ -137,14 +137,11 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
                     Intent intent = new Intent();
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.setAction(Intent.ACTION_VIEW);
-                    String type = getMimeType(filePath);
-                    Logger.d("wangdsh文件类型：" + type, "wangdsh");
+
+                    String type = getMimeType(filePath); // 获取文件类型
                     intent.setDataAndType(Uri.fromFile(file), type);
                     mbasesContext.startActivity(intent);
 
-//                    Intent mIntent = new Intent(mbasesContext, EnlargeImage.class);
-//                    mIntent.putExtra("image_url", message.getFilePath());
-//                    mbasesContext.startActivity(mIntent);
                 }
             });
 
@@ -152,7 +149,12 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
         }
     }
 
-    public static String getMimeType(String url) {//url = file path or whatever suitable URL you want.
+    /**
+     * 获取文件类型
+     * @param url
+     * @return
+     */
+    public static String getMimeType(String url) { // url = file path or whatever suitable URL you want.
         String type = null;
         String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         if (extension != null) {

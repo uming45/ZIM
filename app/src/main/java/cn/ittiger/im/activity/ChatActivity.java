@@ -139,7 +139,6 @@ public class ChatActivity extends BaseChatActivity {
                 // Accept it
                 IncomingFileTransfer transfer = request.accept();
                 try {
-                    Logger.d("wangdsh收到文件", "wangdsh");
                     int messageType = Integer.parseInt(request.getDescription());
 
                     File dir = AppFileHelper.getAppChatMessageDir(messageType);
@@ -255,7 +254,6 @@ public class ChatActivity extends BaseChatActivity {
      * 从本机选择文件
      */
     public void selectFile() {
-        Logger.d("wangdsh点击文件按钮", "wangdsh");
 
         Intent intent;
 
@@ -322,13 +320,11 @@ public class ChatActivity extends BaseChatActivity {
                     File file = FileUtil.uri2File(this, dataUri);
                     sendFile(file, MessageType.MESSAGE_TYPE_IMAGE.value());
                 }
-            } else if (requestCode == REQUEST_CODE_GET_FILE) {//文件选择成功
-                Logger.d("wangdsh文件选择成功", "wangdsh");
+            } else if (requestCode == REQUEST_CODE_GET_FILE) { // 文件选择成功
                 Uri dataUri = data.getData();
                 if (dataUri != null) {
                     File file = FileUtil.uri2File(this, dataUri);
                     sendFile(file, MessageType.MESSAGE_TYPE_FILE.value());
-                    Logger.d("wangdsh发送文件完毕", "wangdsh");
                 } else {
                     Toast.makeText(this, "文件获取失败！", Toast.LENGTH_SHORT).show();
                 }
