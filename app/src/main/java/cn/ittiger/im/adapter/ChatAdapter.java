@@ -3,6 +3,7 @@ package cn.ittiger.im.adapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ittiger.im.R;
+import cn.ittiger.im.activity.EnlargeImage;
 import cn.ittiger.im.bean.ChatMessage;
 import cn.ittiger.im.constant.EmotionType;
 import cn.ittiger.im.constant.FileLoadState;
@@ -14,6 +15,7 @@ import cn.ittiger.im.util.EmotionUtil;
 import cn.ittiger.im.util.ImageLoaderHelper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.text.SpannableString;
@@ -35,6 +37,7 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
     private static final int VIEW_TYPE_ME = 1;
     private static final int VIEW_TYPE_RECEIVER = 0;
     private Context mContext;
+    private Context mbasesContext;
     /**
      * 音频播放器
      */
@@ -44,6 +47,13 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
 
         super(list);
         mContext = context;
+    }
+
+    public ChatAdapter(Context context, List<ChatMessage> list, Context baseContext) {
+
+        super(list);
+        mContext = context;
+        mbasesContext = baseContext;
     }
 
     @Override
@@ -81,8 +91,17 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
             SpannableString content = EmotionUtil.getEmotionContent(mContext, EmotionType.EMOTION_TYPE_CLASSIC, message.getContent());
             viewHolder.chatContentText.setText(content);
         } else if (message.getMessageType() == MessageType.MESSAGE_TYPE_IMAGE.value()) {//图片消息
-            String url = "file://" + message.getFilePath();
+            final String url = "file://" + message.getFilePath();
             ImageLoaderHelper.displayImage(viewHolder.chatContentImage, url);
+            viewHolder.chatContentImage.setOnClickListener(new View.OnClickListener(){//图片点击
+                @Override
+                public void onClick(View v) {
+
+                    Intent mIntent = new Intent(mbasesContext, EnlargeImage.class);
+                    mIntent.putExtra("image_url", message.getFilePath());
+                    mbasesContext.startActivity(mIntent);
+                }
+            });
             showLoading(viewHolder, message);
         } else if (message.getMessageType() == MessageType.MESSAGE_TYPE_VOICE.value()) {//语音消息
             viewHolder.chatContentVoice.setOnClickListener(new View.OnClickListener() {

@@ -45,7 +45,8 @@ public abstract class BaseChatActivity extends IMBaseActivity implements ChatKey
     @BindView(R.id.chat_content)
     CommonRecyclerView mChatMessageRecyclerView;
     /**
-     * 聊天输入控件
+     * 聊天输入控件+
+     *
      */
     @BindView(R.id.ckb_chat_board)
     ChatKeyboard mChatKyboard;
@@ -118,7 +119,8 @@ public abstract class BaseChatActivity extends IMBaseActivity implements ChatKey
         .subscribe(new Action1<List<ChatMessage>>() {
             @Override
             public void call(List<ChatMessage> chatMessages) {
-                mAdapter = new ChatAdapter(mActivity, chatMessages);
+                // mAdapter = new ChatAdapter(mActivity, chatMessages);
+                mAdapter = new ChatAdapter(mActivity, chatMessages, BaseChatActivity.this);
                 mChatMessageRecyclerView.setAdapter(mAdapter);
                 mLayoutManager.scrollToPosition(mAdapter.getItemCount() - 1);
             }
