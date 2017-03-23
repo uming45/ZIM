@@ -3,16 +3,10 @@ package cn.ittiger.im.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bm.library.PhotoView;
-
-import java.io.File;
 
 import cn.ittiger.im.R;
 
