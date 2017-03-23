@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import cn.ittiger.im.R;
 import cn.ittiger.im.activity.base.BaseChatActivity;
@@ -138,6 +139,7 @@ public class ChatActivity extends BaseChatActivity {
                 // Accept it
                 IncomingFileTransfer transfer = request.accept();
                 try {
+                    Logger.d("wangdsh收到文件", "wangdsh");
                     int messageType = Integer.parseInt(request.getDescription());
 
                     File dir = AppFileHelper.getAppChatMessageDir(messageType);
@@ -183,7 +185,7 @@ public class ChatActivity extends BaseChatActivity {
             @Override
             public ChatMessage call(ChatMessage chatMessage) {
 
-                while (!transfer.isDone()) {
+                while (!transfer.isDone()) {//判断传输是否完成
                     try {
                         Thread.sleep(200);
                     } catch (InterruptedException e) {
@@ -228,6 +230,11 @@ public class ChatActivity extends BaseChatActivity {
      */
     private static final int REQUEST_CODE_TAKE_PHOTO = 2;
 
+    /**
+     * 选择文件
+     */
+    private static final int REQUEST_CODE_GET_FILE = 3;
+
     @Override
     public void functionClick(KeyBoardMoreFunType funType) {
 
@@ -238,7 +245,36 @@ public class ChatActivity extends BaseChatActivity {
             case FUN_TYPE_TAKE_PHOTO://拍照
                 takePhoto();
                 break;
+            case FUN_TYPE_FILE://选择文件
+                selectFile();
+                break;
         }
+    }
+
+    /**
+     * 从本机选择文件
+     */
+    public void selectFile() {
+        Logger.d("wangdsh点击文件按钮", "wangdsh");
+
+        Intent intent;
+
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        } else {
+            intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("*/*");
+        }
+
+        try {
+            startActivityForResult(Intent.createChooser(intent, "选择文件"), REQUEST_CODE_GET_FILE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "没有找到文件管理器，请安装一个文件管理软件！", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     /**
@@ -285,6 +321,16 @@ public class ChatActivity extends BaseChatActivity {
                 if (dataUri != null) {
                     File file = FileUtil.uri2File(this, dataUri);
                     sendFile(file, MessageType.MESSAGE_TYPE_IMAGE.value());
+                }
+            } else if (requestCode == REQUEST_CODE_GET_FILE) {//文件选择成功
+                Logger.d("wangdsh文件选择成功", "wangdsh");
+                Uri dataUri = data.getData();
+                if (dataUri != null) {
+                    File file = FileUtil.uri2File(this, dataUri);
+                    sendFile(file, MessageType.MESSAGE_TYPE_FILE.value());
+                    Logger.d("wangdsh发送文件完毕", "wangdsh");
+                } else {
+                    Toast.makeText(this, "文件获取失败！", Toast.LENGTH_SHORT).show();
                 }
             }
         }

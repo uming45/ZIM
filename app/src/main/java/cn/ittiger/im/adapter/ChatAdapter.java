@@ -17,14 +17,20 @@ import cn.ittiger.im.util.ImageLoaderHelper;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -112,7 +118,48 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
                 }
             });
             showLoading(viewHolder, message);
+        } else if (message.getMessageType() == MessageType.MESSAGE_TYPE_FILE.value()) {//文件消息
+
+            final String filePath = message.getFilePath();
+            String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
+
+            if (message.isMeSend()) {
+                viewHolder.chatContentFile.setText("发送文件: \n" + fileName.trim());
+            } else {
+                viewHolder.chatContentFile.setText("收到文件: \n" + fileName);
+            }
+
+            viewHolder.chatContentFile.setOnClickListener(new View.OnClickListener(){//文件点击
+                @Override
+                public void onClick(View v) {
+
+                    File file = new File(filePath);
+                    Intent intent = new Intent();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setAction(Intent.ACTION_VIEW);
+                    String type = getMimeType(filePath);
+                    Logger.d("wangdsh文件类型：" + type, "wangdsh");
+                    intent.setDataAndType(Uri.fromFile(file), type);
+                    mbasesContext.startActivity(intent);
+
+//                    Intent mIntent = new Intent(mbasesContext, EnlargeImage.class);
+//                    mIntent.putExtra("image_url", message.getFilePath());
+//                    mbasesContext.startActivity(mIntent);
+                }
+            });
+
+            showLoading(viewHolder, message);
         }
+    }
+
+    public static String getMimeType(String url) {//url = file path or whatever suitable URL you want.
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            MimeTypeMap mime = MimeTypeMap.getSingleton();
+            type = mime.getMimeTypeFromExtension(extension);
+        }
+        return type;
     }
 
     private void showLoading(ChatViewHolder viewHolder, ChatMessage message) {
@@ -146,15 +193,23 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
         if (messageType == MessageType.MESSAGE_TYPE_TEXT.value()) {//文本消息
             viewHolder.chatContentText.setVisibility(View.VISIBLE);
             viewHolder.chatContentImage.setVisibility(View.GONE);
+            viewHolder.chatContentFile.setVisibility(View.GONE);
             viewHolder.chatContentVoice.setVisibility(View.GONE);
         } else if (messageType == MessageType.MESSAGE_TYPE_IMAGE.value()) {//图片消息
             viewHolder.chatContentText.setVisibility(View.GONE);
             viewHolder.chatContentImage.setVisibility(View.VISIBLE);
+            viewHolder.chatContentFile.setVisibility(View.GONE);
             viewHolder.chatContentVoice.setVisibility(View.GONE);
         } else if (messageType == MessageType.MESSAGE_TYPE_VOICE.value()) {//语音消息
             viewHolder.chatContentText.setVisibility(View.GONE);
             viewHolder.chatContentImage.setVisibility(View.GONE);
+            viewHolder.chatContentFile.setVisibility(View.GONE);
             viewHolder.chatContentVoice.setVisibility(View.VISIBLE);
+        } else if (messageType == MessageType.MESSAGE_TYPE_FILE.value()) { //文件消息
+            viewHolder.chatContentText.setVisibility(View.GONE);
+            viewHolder.chatContentImage.setVisibility(View.GONE);
+            viewHolder.chatContentFile.setVisibility(View.VISIBLE);
+            viewHolder.chatContentVoice.setVisibility(View.GONE);
         }
     }
 
@@ -234,6 +289,8 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
         public TextView chatContentText;//文本消息
         @BindView(R.id.iv_chat_msg_content_image)
         public ImageView chatContentImage;//图片消息
+        @BindView(R.id.iv_chat_msg_content_file)
+        public TextView chatContentFile;//文件消息
         @BindView(R.id.iv_chat_msg_content_voice)
         public ImageView chatContentVoice;//语音消息
         @BindView(R.id.iv_chat_msg_content_loading)

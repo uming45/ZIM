@@ -14,7 +14,11 @@ public enum KeyBoardMoreFunType {
     /**
      * 拍照
      */
-    FUN_TYPE_TAKE_PHOTO(1);
+    FUN_TYPE_TAKE_PHOTO(1),
+    /**
+     * 选择文件
+     */
+    FUN_TYPE_FILE(2);
 
     int value;
 
@@ -34,6 +38,8 @@ public enum KeyBoardMoreFunType {
             return FUN_TYPE_IMAGE;
         } else if(value == FUN_TYPE_TAKE_PHOTO.value()) {
             return FUN_TYPE_TAKE_PHOTO;
+        } else if(value == FUN_TYPE_FILE.value()) {
+            return FUN_TYPE_FILE;
         } else {
             return NONE;
         }

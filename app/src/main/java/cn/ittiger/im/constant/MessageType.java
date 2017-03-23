@@ -1,5 +1,6 @@
 package cn.ittiger.im.constant;
 
+
 /**
  * 消息类型
  * @author: laohu on 2017/1/12
@@ -17,7 +18,11 @@ public enum MessageType {
     /**
      * 语音消息类型
      */
-    MESSAGE_TYPE_VOICE(2);
+    MESSAGE_TYPE_VOICE(2),
+    /**
+     * 文件消息类型
+     */
+    MESSAGE_TYPE_FILE(3);
 
     int value;
     MessageType(int value) {
@@ -36,8 +41,12 @@ public enum MessageType {
             return MESSAGE_TYPE_IMAGE;
         } else if(value == MESSAGE_TYPE_TEXT.value()) {
             return MESSAGE_TYPE_TEXT;
-        } else {
+        } else if (value == MESSAGE_TYPE_VOICE.value()){
             return MESSAGE_TYPE_VOICE;
+        } else if (value == MESSAGE_TYPE_FILE.value()) {
+            return MESSAGE_TYPE_FILE;
+        } else {
+            return null;
         }
     }
 }
