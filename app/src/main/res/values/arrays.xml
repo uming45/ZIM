@@ -3,7 +3,7 @@
     <integer-array name="keyboard_more_icons">
         <item>@drawable/icon_chat_image</item>
         <item>@drawable/icon_chat_take_photo</item>
-        <item>@drawable/icon_chat_take_photo</item>
+        <item>@drawable/icon_chat_file</item>
     </integer-array>
 
     <integer-array name="keyboard_more_names">
