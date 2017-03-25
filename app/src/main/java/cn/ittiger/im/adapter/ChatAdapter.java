@@ -89,17 +89,21 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
         } else {
             viewHolder.chatNickname.setText(message.getFriendNickname());
         }
-        viewHolder.chatContentTime.setText(ChatTimeUtil.getFriendlyTimeSpanByNow(message.getDatetime()));
-        setMessageViewVisible(message.getMessageType(), viewHolder);
 
-        if (message.getMessageType() == MessageType.MESSAGE_TYPE_TEXT.value()) {//文本消息
+        viewHolder.chatContentTime.setText(ChatTimeUtil.getFriendlyTimeSpanByNow(message.getDatetime()));
+        setMessageViewVisible(message.getMessageType(), viewHolder); // 根据消息类型显示对应的消息展示控件
+
+        if (message.getMessageType() == MessageType.MESSAGE_TYPE_TEXT.value()) { //文本消息
             //处理表情
             SpannableString content = EmotionUtil.getEmotionContent(mContext, EmotionType.EMOTION_TYPE_CLASSIC, message.getContent());
             viewHolder.chatContentText.setText(content);
-        } else if (message.getMessageType() == MessageType.MESSAGE_TYPE_IMAGE.value()) {//图片消息
+
+        } else if (message.getMessageType() == MessageType.MESSAGE_TYPE_IMAGE.value()) { //图片消息
+
             final String url = "file://" + message.getFilePath();
             ImageLoaderHelper.displayImage(viewHolder.chatContentImage, url);
-            viewHolder.chatContentImage.setOnClickListener(new View.OnClickListener(){//图片点击
+
+            viewHolder.chatContentImage.setOnClickListener(new View.OnClickListener(){ //图片点击
                 @Override
                 public void onClick(View v) {
 
@@ -108,8 +112,11 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
                     mbasesContext.startActivity(mIntent);
                 }
             });
+
             showLoading(viewHolder, message);
-        } else if (message.getMessageType() == MessageType.MESSAGE_TYPE_VOICE.value()) {//语音消息
+
+        } else if (message.getMessageType() == MessageType.MESSAGE_TYPE_VOICE.value()) { //语音消息
+
             viewHolder.chatContentVoice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -117,8 +124,10 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
                     playVoice(viewHolder.chatContentVoice, message);
                 }
             });
+
             showLoading(viewHolder, message);
-        } else if (message.getMessageType() == MessageType.MESSAGE_TYPE_FILE.value()) {//文件消息
+
+        } else if (message.getMessageType() == MessageType.MESSAGE_TYPE_FILE.value()) { //文件消息
 
             final String filePath = message.getFilePath();
             String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
@@ -146,6 +155,7 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
             });
 
             showLoading(viewHolder, message);
+
         }
     }
 
