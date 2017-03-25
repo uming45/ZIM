@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 /**
  * 通用Activity基类
- * @author: laohu
- * @site: http://ittiger.cn
  */
 public class BaseActivity extends AppCompatActivity {
     protected BaseActivity mActivity;

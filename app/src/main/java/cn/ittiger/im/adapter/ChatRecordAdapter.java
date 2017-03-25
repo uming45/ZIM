@@ -17,14 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
-import static android.R.id.message;
 
 /**
  * 聊天记录列表适配器
- * @author: laohu on 2017/1/22
- * @site: http://ittiger.cn
  */
 public class ChatRecordAdapter extends HeaderAndFooterAdapter<ChatRecord> {
     private Context mContext;
@@ -50,6 +49,7 @@ public class ChatRecordAdapter extends HeaderAndFooterAdapter<ChatRecord> {
         if(!ValueUtil.isEmpty(item.getFriendAvatar())) {
             ImageLoaderHelper.displayImage(viewHolder.avatar, item.getFriendAvatar());
         }
+        Logger.d("wangdsh item.getFriendNickname() " + item.getFriendNickname(), "wangdsh");
         viewHolder.nickName.setText(item.getFriendNickname());
         if(!ValueUtil.isEmpty(item.getLastMessage())) {
             if(viewHolder.message.getVisibility() == View.GONE) {

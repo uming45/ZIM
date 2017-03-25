@@ -30,9 +30,6 @@ import java.util.List;
 
 /**
  * 单人和多人聊天窗口基类
- *
- * @author: laohu on 2017/2/3
- * @site: http://ittiger.cn
  */
 public abstract class BaseChatActivity extends IMBaseActivity implements ChatKeyboard.KeyboardOperateListener {
     @BindView(R.id.toolbar)
