@@ -105,7 +105,7 @@ public class SmackManager {
                     //服务器端口
                     .setPort(PORT)
                     //是否开启压缩
-                    .setCompressionEnabled(false)
+                    .setCompressionEnabled(true)
                     //开启调试模式
                     .setDebuggerEnabled(true).build();
 
