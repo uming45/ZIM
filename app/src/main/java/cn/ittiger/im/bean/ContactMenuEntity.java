@@ -4,9 +4,7 @@ import cn.ittiger.im.R;
 import cn.ittiger.indexlist.entity.BaseEntity;
 
 /**
- * 联系人列表头部的菜单项
- * @author: laohu on 2016/12/26
- * @site: http://ittiger.cn
+ * 联系人列表头部的菜单项（分组、群聊）
  */
 public class ContactMenuEntity implements BaseEntity {
     private String mMenuName;

@@ -6,8 +6,6 @@ import org.jivesoftware.smack.roster.RosterEntry;
 
 /**
  * 联系人实体
- * @author: laohu on 2016/12/26
- * @site: http://ittiger.cn
  */
 public class ContactEntity implements BaseEntity {
     private RosterEntry mRosterEntry;

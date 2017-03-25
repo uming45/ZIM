@@ -6,8 +6,6 @@ import org.jivesoftware.smack.roster.RosterEntry;
 
 /**
  * 创建群聊时可选联系人实体
- * @author: laohu on 2017/1/24
- * @site: http://ittiger.cn
  */
 public class CheckableContactEntity implements BaseEntity {
     private RosterEntry mRosterEntry;
