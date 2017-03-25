@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 /**
  * 页面加载的时候，页面加载进度条及加载失败后的处理
- * @author: laohu on 2016/7/3
- * @site: http://ittiger.cn
  */
 public class PageLoadingHelper {
     private FrameLayout mLoadingFailedLayout;

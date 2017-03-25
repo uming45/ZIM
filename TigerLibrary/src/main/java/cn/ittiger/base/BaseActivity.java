@@ -15,6 +15,7 @@ import android.widget.Toast;
  * 通用Activity基类
  */
 public class BaseActivity extends AppCompatActivity {
+
     protected BaseActivity mActivity;
     private PageLoadingHelper mPageLoadingHelper;
 
@@ -39,7 +40,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(View view) {
 
-        if(isLceActivity()) {
+        if(isLceActivity()) { // 在初始化的时候需要查询数据，并显示查询等待进度条，查询失败显示失败提示
             ViewGroup root = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.base_layout, null);
             root.addView(view, 0);
             super.setContentView(root);
