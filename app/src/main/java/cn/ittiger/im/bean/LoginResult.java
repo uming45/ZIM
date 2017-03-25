@@ -1,7 +1,7 @@
 package cn.ittiger.im.bean;
 
 /**
- * Created by ylhu on 16-12-14.
+ * 记录用户登录结果
  */
 public class LoginResult {
 
