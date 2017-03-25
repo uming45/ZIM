@@ -37,7 +37,7 @@ public class ChatMessage implements Parcelable {
     @Column(columnName = "messageType")
     private int mMessageType;
     /**
-     * 聊天好友的用户名,群聊时为群聊的jid,格式为：@conference.xxx.xxx.xxx.xxx
+     * 聊天好友的用户名,群聊时为群聊的jid,格式为：群@conference.xxx.xxx.xxx.xxx
      */
     @Column(columnName = "friendUserName")
     private String mFriendUsername;
@@ -235,7 +235,7 @@ public class ChatMessage implements Parcelable {
     }
 
     /**
-     * 使用Parcelable传递ChatMessage对象
+     * 使用Parcelable传递ChatMessage对象,写入操作
      * @param dest
      * @param flags
      */

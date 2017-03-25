@@ -13,9 +13,6 @@ import java.util.UUID;
 
 /**
  * 聊天用户实体对象
- *
- * @author: laohu on 2017/1/19
- * @site: http://ittiger.cn
  */
 @Table(name = "ChatDialog")
 public class ChatUser implements Parcelable {
@@ -25,7 +22,7 @@ public class ChatUser implements Parcelable {
     @PrimaryKey
     private String uuid;
     /**
-     * 聊天好友的用户名，群聊时为群聊MultiUserChat的room，即jid,格式为：老胡创建的群@conference.121.42.13.79
+     * 聊天好友的用户名，群聊时为群聊MultiUserChat的room，即jid,格式为：群@conference.xxx.xxx.xxx.xxx
      */
     @Column(columnName = "friendUserName")
     private String mFriendUsername;
@@ -198,6 +195,11 @@ public class ChatUser implements Parcelable {
         return 0;
     }
 
+    /**
+     * 使用Parcelable传递ChatUser对象,写入操作
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 

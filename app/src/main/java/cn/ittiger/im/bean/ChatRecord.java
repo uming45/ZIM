@@ -10,9 +10,6 @@ import android.os.Parcel;
 
 /**
  * 聊天记录实体对象
- *
- * @author: laohu on 2017/1/22
- * @site: http://ittiger.cn
  */
 @Table(name = "ChatRecord")
 public class ChatRecord extends ChatUser {
