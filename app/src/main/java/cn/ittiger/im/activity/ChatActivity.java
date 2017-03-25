@@ -119,6 +119,8 @@ public class ChatActivity extends BaseChatActivity {
      */
     public void sendFile(final File file, int messageType) {
 
+        Logger.d("wangdsh ChatActivity sendFile(): " + mChatUser.getFileJid(), "wangdsh");
+
         final OutgoingFileTransfer transfer = SmackManager.getInstance().getSendFileTransfer(mChatUser.getFileJid());
         try {
             transfer.sendFile(file, String.valueOf(messageType));
@@ -234,6 +236,10 @@ public class ChatActivity extends BaseChatActivity {
      */
     private static final int REQUEST_CODE_GET_FILE = 3;
 
+    /**
+     * 多种功能的点击处理
+     * @param funType 功能类型
+     */
     @Override
     public void functionClick(KeyBoardMoreFunType funType) {
 
@@ -248,31 +254,6 @@ public class ChatActivity extends BaseChatActivity {
                 selectFile();
                 break;
         }
-    }
-
-    /**
-     * 从本机选择文件
-     */
-    public void selectFile() {
-
-        Intent intent;
-
-        if (Build.VERSION.SDK_INT < 19) {
-            intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("*/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        } else {
-            intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("*/*");
-        }
-
-        try {
-            startActivityForResult(Intent.createChooser(intent, "选择文件"), REQUEST_CODE_GET_FILE);
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "没有找到文件管理器，请安装一个文件管理软件！", Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     /**
@@ -291,6 +272,7 @@ public class ChatActivity extends BaseChatActivity {
             intent.setType("image/*");
             startActivityForResult(Intent.createChooser(intent, "选择图片"), REQUEST_CODE_GET_IMAGE);
         }
+
     }
 
     private String mPicPath = "";
@@ -305,8 +287,40 @@ public class ChatActivity extends BaseChatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(mPicPath)));
         startActivityForResult(intent, REQUEST_CODE_TAKE_PHOTO);
+
     }
 
+    /**
+     * 从本机选择文件
+     */
+    public void selectFile() {
+
+        Intent intent;
+
+        if (Build.VERSION.SDK_INT < 19) { // 版本不同，参数不一样
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        } else {
+            intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("*/*");
+        }
+
+        try {
+            startActivityForResult(Intent.createChooser(intent, "选择文件"), REQUEST_CODE_GET_FILE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "没有找到文件管理器，请安装一个文件管理软件！", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    /**
+     * 执行拍照、图片选择、文件选择后的结果处理
+     * @param requestCode 请求码
+     * @param resultCode 返回结果码
+     * @param data 返回数据
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -315,19 +329,25 @@ public class ChatActivity extends BaseChatActivity {
             if (requestCode == REQUEST_CODE_TAKE_PHOTO) {//拍照成功
                 takePhotoSuccess();
             } else if (requestCode == REQUEST_CODE_GET_IMAGE) {//图片选择成功
+
                 Uri dataUri = data.getData();
                 if (dataUri != null) {
                     File file = FileUtil.uri2File(this, dataUri);
                     sendFile(file, MessageType.MESSAGE_TYPE_IMAGE.value());
                 }
+
             } else if (requestCode == REQUEST_CODE_GET_FILE) { // 文件选择成功
+
                 Uri dataUri = data.getData();
                 if (dataUri != null) {
+
                     File file = FileUtil.uri2File(this, dataUri);
                     sendFile(file, MessageType.MESSAGE_TYPE_FILE.value());
+
                 } else {
                     Toast.makeText(this, "文件获取失败！", Toast.LENGTH_SHORT).show();
                 }
+
             }
         }
     }
