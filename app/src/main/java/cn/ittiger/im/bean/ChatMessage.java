@@ -15,9 +15,6 @@ import java.util.UUID;
 
 /**
  * 聊天发送的消息
- *
- * @author: laohu on 2017/1/18
- * @site: http://ittiger.cn
  */
 @Table(name = "ChatMessage")
 public class ChatMessage implements Parcelable {
@@ -40,7 +37,7 @@ public class ChatMessage implements Parcelable {
     @Column(columnName = "messageType")
     private int mMessageType;
     /**
-     * 聊天好友的用户名,群聊时为群聊的jid,格式为：老胡创建的群@conference.121.42.13.79
+     * 聊天好友的用户名,群聊时为群聊的jid,格式为：@conference.xxx.xxx.xxx.xxx
      */
     @Column(columnName = "friendUserName")
     private String mFriendUsername;
@@ -237,6 +234,11 @@ public class ChatMessage implements Parcelable {
         return 0;
     }
 
+    /**
+     * 使用Parcelable传递ChatMessage对象
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
