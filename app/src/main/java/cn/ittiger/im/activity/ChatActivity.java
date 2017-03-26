@@ -36,6 +36,7 @@ import cn.ittiger.im.util.DBHelper;
 import cn.ittiger.util.BitmapUtil;
 import cn.ittiger.util.DateUtil;
 import cn.ittiger.util.FileUtil;
+import cn.ittiger.util.UIUtil;
 import cn.ittiger.util.ValueUtil;
 import rx.Observable;
 import rx.Subscriber;
@@ -310,7 +311,7 @@ public class ChatActivity extends BaseChatActivity {
         try {
             startActivityForResult(Intent.createChooser(intent, "选择文件"), REQUEST_CODE_GET_FILE);
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "没有找到文件管理器，请安装一个文件管理软件！", Toast.LENGTH_SHORT).show();
+            UIUtil.showToast(this, "没有找到文件管理器，请安装一个文件管理软件！");
         }
 
     }
@@ -345,7 +346,7 @@ public class ChatActivity extends BaseChatActivity {
                     sendFile(file, MessageType.MESSAGE_TYPE_FILE.value());
 
                 } else {
-                    Toast.makeText(this, "文件获取失败！", Toast.LENGTH_SHORT).show();
+                    UIUtil.showToast(this, "文件获取失败！");
                 }
 
             }
