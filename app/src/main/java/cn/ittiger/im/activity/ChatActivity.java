@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.widget.Toast;
 
 import cn.ittiger.im.R;
 import cn.ittiger.im.activity.base.BaseChatActivity;
@@ -49,8 +48,6 @@ import com.orhanobut.logger.Logger;
 
 /**
  * 单聊窗口
- * @author: laohu on 2017/1/12
- * @site: http://ittiger.cn
  */
 public class ChatActivity extends BaseChatActivity {
     /**
@@ -327,8 +324,11 @@ public class ChatActivity extends BaseChatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+
             if (requestCode == REQUEST_CODE_TAKE_PHOTO) {//拍照成功
+
                 takePhotoSuccess();
+
             } else if (requestCode == REQUEST_CODE_GET_IMAGE) {//图片选择成功
 
                 Uri dataUri = data.getData();
@@ -360,6 +360,7 @@ public class ChatActivity extends BaseChatActivity {
 
         Bitmap bitmap = BitmapUtil.createBitmapWithFile(mPicPath, 640);
         BitmapUtil.createPictureWithBitmap(mPicPath, bitmap, 80);
+
         if (!bitmap.isRecycled()) {
             bitmap.recycle();
             bitmap = null;

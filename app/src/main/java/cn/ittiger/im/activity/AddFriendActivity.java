@@ -30,8 +30,6 @@ import org.jivesoftware.smack.roster.RosterEntry;
 
 /**
  * 添加好友
- * @author: laohu on 2016/12/24
- * @site: http://ittiger.cn
  */
 public class AddFriendActivity extends IMBaseActivity {
     @BindView(R.id.toolbar)
@@ -78,11 +76,13 @@ public class AddFriendActivity extends IMBaseActivity {
             mUserTextInput.setError(getString(R.string.error_input_friend_username));
             return;
         }
+
         final String nickname = mNickNameEditText.getText().toString();
         if (ValueUtil.isEmpty(nickname)) {
             mNickNameTextInput.setError(getString(R.string.error_input_friend_username));
             return;
         }
+
         Observable.create(new Observable.OnSubscribe<RosterEntry>() {
             @Override
             public void call(Subscriber<? super RosterEntry> subscriber) {
