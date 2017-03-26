@@ -21,8 +21,6 @@ import android.view.View;
 
 /**
  * 关于
- * @author: laohu on 2016/12/27
- * @site: http://ittiger.cn
  */
 public class AboutActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
@@ -58,14 +56,14 @@ public class AboutActivity extends AppCompatActivity {
         String url = null;
         switch (view.getId()) {
             case R.id.tv_about_blog:
-                url = "http://ittiger.cn";
+                url = "";
                 break;
             case R.id.tv_about_github:
-                url = "https://github.com/huyongli/TigerIM";
+                url = "";
                 break;
             case R.id.tv_about_contact:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboard.setPrimaryClip(ClipData.newPlainText("text", "106510493"));
+                clipboard.setPrimaryClip(ClipData.newPlainText("text", "12345"));
                 Snackbar.make(mNestedScrollView, "复制成功", Snackbar.LENGTH_SHORT).show();
                 break;
         }

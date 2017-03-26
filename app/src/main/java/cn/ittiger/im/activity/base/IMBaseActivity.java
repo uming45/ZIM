@@ -7,8 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 /**
- * @author: laohu on 2017/1/1
- * @site: http://ittiger.cn
+ * 即时通讯基类
  */
 public class IMBaseActivity extends BaseActivity {
 
@@ -26,6 +25,11 @@ public class IMBaseActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 是否在初始化的时候需要查询数据，并显示查询等待进度条，查询失败显示失败提示
+     *
+     * @return  if return true, you just to override refreshData() method to loading data
+     */
     @Override
     public boolean isLceActivity() {
 
