@@ -36,7 +36,6 @@ import org.jivesoftware.smackx.muc.DiscussionHistory;
 import org.jivesoftware.smackx.muc.HostedRoom;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
-import org.jivesoftware.smackx.muc.RoomInfo;
 import org.jivesoftware.smackx.xdata.Form;
 import org.jivesoftware.smackx.xdata.FormField;
 
@@ -45,15 +44,15 @@ public class SmackManager {
     /**
      * Xmpp服务器地址
      */
-    public static final String SERVER_IP = "192.168.1.157";
+    public static final String SERVER_IP = Constant.SERVER_IP;
     /**
      * Xmpp 服务器端口
      */
-    private static final int PORT = 5222;
+    private static final int PORT = Constant.SERVER_PORT;
     /**
      * 服务器名称
      */
-    public static final String SERVER_NAME = "192.168.1.157";
+    public static final String SERVER_NAME = Constant.SERVER_NAME;
     /**
      *
      */
