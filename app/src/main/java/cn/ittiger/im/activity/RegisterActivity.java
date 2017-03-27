@@ -29,9 +29,6 @@ import rx.schedulers.Schedulers;
 
 /**
  * 注册
- *
- * @auther: hyl
- * @time: 2015-10-28上午10:52:49
  */
 public class RegisterActivity extends IMBaseActivity {
     @BindView(R.id.toolbar)
