@@ -10,6 +10,9 @@ import com.bm.library.PhotoView;
 
 import cn.ittiger.im.R;
 
+/**
+ * 点击图片后，放大图片
+ */
 public class EnlargeImage extends AppCompatActivity {
 
     @Override
@@ -23,9 +26,6 @@ public class EnlargeImage extends AppCompatActivity {
 
         PhotoView photoView = (PhotoView) findViewById(R.id.photoview_id);
         photoView.setImageBitmap(bm);
-
-
-        // photoView.setImageURI(Uri.fromFile(new File(image_url)));
-        photoView.enable();
+        photoView.enable(); // 开启放缩功能
     }
 }
