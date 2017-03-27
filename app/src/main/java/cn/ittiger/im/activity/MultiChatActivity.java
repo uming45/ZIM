@@ -23,9 +23,6 @@ import java.io.File;
 
 /**
  * 多人聊天
- *
- * @author: laohu on 2017/2/3
- * @site: http://ittiger.cn
  */
 public class MultiChatActivity extends BaseChatActivity {
     /**
