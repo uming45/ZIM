@@ -36,12 +36,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * 主页面
- * @author: laohu on 2016/12/24
- * @site: http://ittiger.cn
- */
-
-/**
- * 删除NavigationView.OnNavigationItemSelectedListener,
  */
 public class MainActivity extends IMBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,
