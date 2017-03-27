@@ -1,8 +1,7 @@
 package cn.ittiger.im.constant;
 
 /**
- * @author: laohu on 2017/2/3
- * @site: http://ittiger.cn
+ * 常量
  */
 public class Constant {
 
