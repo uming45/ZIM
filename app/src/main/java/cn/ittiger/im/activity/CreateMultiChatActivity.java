@@ -40,8 +40,6 @@ import java.util.Set;
 
 /**
  * 创建群聊界面
- * @author: laohu on 2017/1/24
- * @site: http://ittiger.cn
  */
 public class CreateMultiChatActivity extends IMBaseActivity
         implements Toolbar.OnMenuItemClickListener {
