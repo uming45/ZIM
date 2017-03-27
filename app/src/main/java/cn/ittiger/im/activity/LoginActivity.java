@@ -28,9 +28,6 @@ import android.widget.Button;
 
 /**
  * 登陆openfire服务器
- *
- * @auther: hyl
- * @time: 2015-10-23下午1:36:59
  */
 public class LoginActivity extends IMBaseActivity {
     /**
