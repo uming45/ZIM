@@ -21,8 +21,6 @@ import android.widget.ProgressBar;
 
 /**
  * 加载网页
- * @author: laohu on 2016/12/27
- * @site: http://ittiger.cn
  */
 public class WebPageActivity extends BaseActivity {
     @BindView(R.id.webView)
