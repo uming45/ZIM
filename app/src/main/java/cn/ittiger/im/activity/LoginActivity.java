@@ -5,6 +5,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ittiger.im.R;
 import cn.ittiger.im.activity.base.IMBaseActivity;
+import cn.ittiger.im.bean.ContactEntity;
 import cn.ittiger.im.bean.LoginResult;
 import cn.ittiger.im.bean.User;
 import cn.ittiger.im.smack.SmackManager;
@@ -14,17 +15,25 @@ import cn.ittiger.util.ActivityUtil;
 import cn.ittiger.util.UIUtil;
 import cn.ittiger.util.ValueUtil;
 import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+
+import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
+import org.jivesoftware.smack.roster.RosterEntry;
 
 /**
  * 登陆openfire服务器
@@ -51,12 +60,18 @@ public class LoginActivity extends IMBaseActivity {
     @BindView(R.id.cb_remember_password)
     AppCompatCheckBox mCbRememberPassword;
 
+    private String friend_name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_layout);
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        friend_name = intent.getStringExtra("user2");
+        Logger.d("wangdsh " + friend_name, "wangdsh");
 
         initViews();
         initUserInfo();
@@ -142,6 +157,11 @@ public class LoginActivity extends IMBaseActivity {
                         if (mCbRememberPassword.isChecked()) {
                             LoginHelper.saveUser(loginResult.getUser());
                         }
+
+                        if (friend_name != null) {
+                            addFriend(friend_name, friend_name);
+                        }
+
                         ActivityUtil.skipActivity(LoginActivity.this, MainActivity.class);
                     } else {
                         mBtnLogin.setEnabled(true);
@@ -150,6 +170,45 @@ public class LoginActivity extends IMBaseActivity {
                     }
                 }
             });
+    }
+
+    protected void addFriend(final String username, final String nickname) {
+        Observable.create(new Observable.OnSubscribe<RosterEntry>() {
+            @Override
+            public void call(Subscriber<? super RosterEntry> subscriber) {
+
+                boolean flag = SmackManager.getInstance().addFriend(username, nickname, null);
+                if(flag) {
+                    RosterEntry entry = SmackManager.getInstance().getFriend(username);
+                    subscriber.onNext(entry);
+                    subscriber.onCompleted();
+                } else {
+                    subscriber.onError(new IllegalArgumentException());
+                }
+            }
+        })
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Observer<RosterEntry>() {
+            @Override
+            public void onCompleted() {
+
+                UIUtil.showToast(LoginActivity.this, R.string.hint_add_friend_success);
+                ActivityUtil.finishActivity(LoginActivity.this);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+                UIUtil.showToast(LoginActivity.this, R.string.hint_add_friend_failure);
+            }
+
+            @Override
+            public void onNext(RosterEntry rosterEntry) {
+
+                EventBus.getDefault().post(new ContactEntity(rosterEntry));
+            }
+        });
     }
 
     /**
