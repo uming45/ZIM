@@ -71,7 +71,7 @@ public final class IMUtil {
      */
     public static void startChatActivity(Context context, RosterEntry rosterEntry) {
 
-        ChatUser chatUser = DBQueryHelper.queryChatUser(rosterEntry);
+        ChatUser chatUser = DBQueryHelper.queryChatUser(rosterEntry);//queryChatUser：1、查询，2、如果没有，就往数据库里面写入新的RosterEntry
 
         ChatRecord chatRecord = DBQueryHelper.queryChatRecord(chatUser.getUuid());
         if(chatRecord == null) {

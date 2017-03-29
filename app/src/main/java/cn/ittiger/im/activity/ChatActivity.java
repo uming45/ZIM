@@ -32,6 +32,7 @@ import cn.ittiger.im.constant.MessageType;
 import cn.ittiger.im.smack.SmackManager;
 import cn.ittiger.im.util.AppFileHelper;
 import cn.ittiger.im.util.DBHelper;
+import cn.ittiger.im.util.Filter;
 import cn.ittiger.util.BitmapUtil;
 import cn.ittiger.util.DateUtil;
 import cn.ittiger.util.FileUtil;
@@ -118,8 +119,10 @@ public class ChatActivity extends BaseChatActivity {
     public void sendFile(final File file, int messageType) {
 
         Logger.d("wangdsh ChatActivity sendFile(): " + mChatUser.getFileJid(), "wangdsh");
+        String FileJIDFilter = mChatUser.getFileJid();
+        Filter filter = new Filter();
 
-        final OutgoingFileTransfer transfer = SmackManager.getInstance().getSendFileTransfer(mChatUser.getFileJid());
+        final OutgoingFileTransfer transfer = SmackManager.getInstance().getSendFileTransfer(filter.filterFileJid(FileJIDFilter));
         try {
             transfer.sendFile(file, String.valueOf(messageType));
             checkTransferStatus(transfer, file, messageType, true);
