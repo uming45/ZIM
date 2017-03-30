@@ -1,7 +1,7 @@
 package cn.ittiger.im.util;
 
 /**
- * Created by admin on 2017/3/29.
+ * 解决xxx@x.x.x.x@x.x.x.x中@域出现两次的问题
  */
 
 public class Filter {
