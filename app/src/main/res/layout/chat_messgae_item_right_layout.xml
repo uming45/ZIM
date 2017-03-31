@@ -74,12 +74,13 @@
                 android:scaleType="fitCenter"
                 android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/iv_chat_msg_content_file"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:visibility="gone"/>
+            <!--<TextView-->
+                <!--android:id="@+id/iv_chat_msg_content_file"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:singleLine="false"-->
+                <!--android:visibility="gone"/>-->
+            <include layout="@layout/file_message"/>
 
             <ImageView
                 android:id="@+id/iv_chat_msg_content_voice"

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/iv_chat_msg_content_file"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:paddingBottom="@dimen/dimen_1"
+    android:paddingLeft="@dimen/dimen_4"
+    android:paddingRight="@dimen/dimen_4"
+    android:paddingTop="@dimen/dimen_1">
+
+    <ImageView
+        android:id="@+id/file_message_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_chat_file"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/file_message_tv_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="file_name"
+            android:paddingBottom="@dimen/dimen_1"
+            android:paddingLeft="@dimen/dimen_4"
+            android:paddingRight="@dimen/dimen_4"
+            android:paddingTop="@dimen/dimen_1"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/file_message_tv_filename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="file_size"
+            android:paddingBottom="@dimen/dimen_1"
+            android:paddingLeft="@dimen/dimen_4"
+            android:paddingRight="@dimen/dimen_4"
+            android:paddingTop="@dimen/dimen_1"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+</LinearLayout>

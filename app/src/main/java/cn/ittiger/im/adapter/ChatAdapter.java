@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -132,11 +133,16 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
             final String filePath = message.getFilePath();
             String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
 
+            TextView file_tag_tv = (TextView)viewHolder.chatContentFile.findViewById(R.id.file_message_tv_tab);
             if (message.isMeSend()) {
-                viewHolder.chatContentFile.setText("发送文件: \n" + fileName.trim());
+                file_tag_tv.setText("发送文件：");
+                //viewHolder.chatContentFile.setText("发送文件: \n" + fileName.trim());
             } else {
-                viewHolder.chatContentFile.setText("收到文件: \n" + fileName);
+                file_tag_tv.setText("接收文件：");
             }
+
+            TextView file_name_tv = (TextView)viewHolder.chatContentFile.findViewById(R.id.file_message_tv_filename);
+            file_name_tv.setText(fileName.trim());
 
             viewHolder.chatContentFile.setOnClickListener(new View.OnClickListener(){//文件点击
                 @Override
@@ -301,8 +307,11 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
         public TextView chatContentText;//文本消息
         @BindView(R.id.iv_chat_msg_content_image)
         public ImageView chatContentImage;//图片消息
+
         @BindView(R.id.iv_chat_msg_content_file)
-        public TextView chatContentFile;//文件消息
+        public LinearLayout chatContentFile;//文件消息
+//        public TextView chatContentFile;//文件消息
+
         @BindView(R.id.iv_chat_msg_content_voice)
         public ImageView chatContentVoice;//语音消息
         @BindView(R.id.iv_chat_msg_content_loading)
