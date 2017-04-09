@@ -51,8 +51,8 @@ public class EmotionDataHelper {
         sEmotionClassicMap.put("[钱]", R.drawable.d_qian);
         sEmotionClassicMap.put("[偷笑]", R.drawable.d_touxiao);
         sEmotionClassicMap.put("[笑cry]", R.drawable.d_xiaoku);
-        sEmotionClassicMap.put("[doge]", R.drawable.d_doge);
-        sEmotionClassicMap.put("[喵喵]", R.drawable.d_miao);
+        sEmotionClassicMap.put("[吐]", R.drawable.d_tu);
+//        sEmotionClassicMap.put("[喵喵]", R.drawable.d_miao);
         sEmotionClassicMap.put("[酷]", R.drawable.d_ku);
         sEmotionClassicMap.put("[衰]", R.drawable.d_shuai);
         sEmotionClassicMap.put("[闭嘴]", R.drawable.d_bizui);
@@ -70,7 +70,7 @@ public class EmotionDataHelper {
         sEmotionClassicMap.put("[左哼哼]", R.drawable.d_zuohengheng);
         sEmotionClassicMap.put("[嘘]", R.drawable.d_xu);
         sEmotionClassicMap.put("[委屈]", R.drawable.d_weiqu);
-        sEmotionClassicMap.put("[吐]", R.drawable.d_tu);
+//        sEmotionClassicMap.put("[doge]", R.drawable.d_doge);
         sEmotionClassicMap.put("[可怜]", R.drawable.d_kelian);
         sEmotionClassicMap.put("[打哈气]", R.drawable.d_dahaqi);
         sEmotionClassicMap.put("[挤眼]", R.drawable.d_jiyan);
@@ -84,9 +84,9 @@ public class EmotionDataHelper {
         sEmotionClassicMap.put("[阴险]", R.drawable.d_yinxian);
         sEmotionClassicMap.put("[打脸]", R.drawable.d_dalian);
         sEmotionClassicMap.put("[傻眼]", R.drawable.d_shayan);
-        sEmotionClassicMap.put("[猪头]", R.drawable.d_zhutou);
-        sEmotionClassicMap.put("[熊猫]", R.drawable.d_xiongmao);
-        sEmotionClassicMap.put("[兔子]", R.drawable.d_tuzi);
+//        sEmotionClassicMap.put("[猪头]", R.drawable.d_zhutou);
+//        sEmotionClassicMap.put("[熊猫]", R.drawable.d_xiongmao);
+//        sEmotionClassicMap.put("[兔子]", R.drawable.d_tuzi);
     }
 
     /**
