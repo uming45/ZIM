@@ -18,7 +18,7 @@ public class LoginHelper {
      */
     public static boolean isRememberPassword() {
 
-        return PreferenceHelper.getBoolean(KEY_REMEMBER_PASSWORD, false);
+        return PreferenceHelper.getBoolean(KEY_REMEMBER_PASSWORD, true); // 设置默认记住密码
     }
 
     public static void rememberRassword(boolean isRemember) {

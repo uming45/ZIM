@@ -47,7 +47,8 @@
         android:layout_below="@+id/ll_login_edit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dimen_10"
-        android:text="记住密码"/>
+        android:text="记住密码"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/btn_login"
