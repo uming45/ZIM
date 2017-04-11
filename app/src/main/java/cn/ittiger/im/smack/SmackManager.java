@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jivesoftware.smack.ReconnectionManager;
+import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.SmackException.NoResponseException;
@@ -22,6 +23,7 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.XMPPException.XMPPErrorException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
+import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
@@ -36,6 +38,7 @@ import org.jivesoftware.smackx.muc.DiscussionHistory;
 import org.jivesoftware.smackx.muc.HostedRoom;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
+import org.jivesoftware.smackx.offline.OfflineMessageManager;
 import org.jivesoftware.smackx.xdata.Form;
 import org.jivesoftware.smackx.xdata.FormField;
 
@@ -63,6 +66,11 @@ public class SmackManager {
      * 连接
      */
     private XMPPTCPConnection mConnection;
+
+    /**
+     * 离线消息
+     */
+    List<Message> offlineMessagesList;
 
     private SmackManager() {
 
@@ -105,6 +113,8 @@ public class SmackManager {
                     .setPort(PORT)
                     //是否开启压缩
                     .setCompressionEnabled(true)
+                    //设置用户是否上线 TEST
+                    .setSendPresence(false)
                     //开启调试模式
                     .setDebuggerEnabled(true).build();
 
@@ -121,6 +131,37 @@ public class SmackManager {
     }
 
     /**
+     * 获取离线消息
+     */
+    public void getOfflineMessage() {
+
+        OfflineMessageManager offlineMessageManager = new OfflineMessageManager(getConnection());
+
+        try {
+            // 离线消息数量
+            Logger.d("wangdsh offline message count: " + offlineMessageManager.getMessageCount(), "wangdsh");
+            offlineMessagesList = offlineMessageManager.getMessages();
+
+            // 删除离线消息
+            offlineMessageManager.deleteMessages();
+
+            // 将状态设置成在线
+            Presence presence = new Presence(Presence.Type.available);
+            getConnection().sendStanza(presence);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取离线消息List
+     */
+    public List<Message> getOfflineMessagesList() {
+        return offlineMessagesList;
+    }
+
+    /**
      * 登陆
      *
      * @param username     用户账号
@@ -131,12 +172,21 @@ public class SmackManager {
     public LoginResult login(String username, String password) {
 
         try {
+            disconnect(); // 先断开连接
             if (!isConnected()) {
                 throw new IllegalStateException("服务器断开，请先连接服务器");
             }
+//            SASLAuthentication.unBlacklistSASLMechanism("PLAIN");
+//            SASLAuthentication.blacklistSASLMechanism("SHA-1");
+//            SASLAuthentication.blacklistSASLMechanism("DIGEST-MD5");
             mConnection.login(username, password);
+
             User user = new User(username, password);
             user.setNickname(getAccountName());
+
+            // TEST
+            getOfflineMessage(); // 获取离线消息
+
             return new LoginResult(user, true);
         } catch (Exception e) {
             Logger.e(TAG, e, "login failure");
