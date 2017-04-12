@@ -34,12 +34,12 @@ public class SmackChatManagerListener implements ChatManagerListener {
             public void processMessage(Chat chat, Message message) {
                 //不会收到自己发送过来的消息
                 Logger.d(message.toString());
-                String from = message.getFrom(); //消息发送人，格式:laohu@171.17.100.201/Smack
+                String from = message.getFrom(); //消息发送人，格式:xx@xx.xx.xx.xx/Smack
                 if(from.contains(Constant.MULTI_CHAT_ADDRESS_SPLIT)) {
                     return;
                 }
 
-                String to = message.getTo(); //消息接收人(当前登陆用户)，格式:laohu@171.17.100.201/Smack
+                String to = message.getTo(); //消息接收人(当前登陆用户)，格式:xx@xx.xx.xx.xx/Smack
                 Matcher matcherFrom = Pattern.compile(PATTERN).matcher(from);
                 Matcher matcherTo = Pattern.compile(PATTERN).matcher(to);
 

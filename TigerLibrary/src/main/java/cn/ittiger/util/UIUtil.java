@@ -5,9 +5,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-/**
- * Created by laohu on 16-12-14.
- */
 public class UIUtil {
 
     private static Handler sHandler = new Handler(Looper.getMainLooper());

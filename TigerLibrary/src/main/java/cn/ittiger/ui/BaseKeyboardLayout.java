@@ -24,9 +24,6 @@ import java.util.Map;
 
 /**
  * 自定义聊天键盘基类
- *
- * @author: laohu on 2017/2/5
- * @site: http://ittiger.cn
  */
 public abstract class BaseKeyboardLayout extends LinearLayout implements View.OnClickListener {
     private static final String KEY_SOFT_KEYBOARD_HEIGHT = "soft_keyboard_height";

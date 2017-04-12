@@ -12,10 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * @author laohu
- * @site http://ittiger.cn
- */
 public abstract class BaseFragment extends Fragment {
 
     protected AppCompatActivity mContext;

@@ -541,7 +541,7 @@ public class SmackManager {
     /**
      * 获取发送文件的发送器
      *
-     * @param jid 一个完整的jid(如：laohu@192.168.0.108/Smack，后面的Smack应该客户端类型，不加这个会出错)
+     * @param jid 一个完整的jid(如：xx@xx.xx.xx.xx/Smack，后面的Smack应该客户端类型，不加这个会出错)
      * @return
      */
     public OutgoingFileTransfer getSendFileTransfer(String jid) {

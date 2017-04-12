@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-/**
- * Created by laohu on 16-12-14.
- */
 public class ActivityUtil {
 
     public static void startActivity(Context context, Intent intent) {

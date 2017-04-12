@@ -15,8 +15,6 @@ import java.util.List;
 
 /**
  * 加载动画
- * @author: laohu on 2016/7/3
- * @site: http://ittiger.cn
  */
 public class LoadingView extends View {
     /**

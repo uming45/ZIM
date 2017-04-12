@@ -6,9 +6,6 @@ import cn.ittiger.util.cipher.Cipher;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * Created by laohu on 16-12-13.
- */
 public class PreferenceHelper {
 
     private static SharedPreferences sSharedPreferences;

@@ -7,9 +7,6 @@ import android.view.MotionEvent;
 
 /**
  * 不能横向滑动的ViewPager
- *
- * @author: laohu on 2017/2/6
- * @site: http://ittiger.cn
  */
 public class NoHorizontalScrollViewPager extends ViewPager {
 
