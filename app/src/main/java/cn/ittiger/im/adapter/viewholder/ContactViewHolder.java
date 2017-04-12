@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 /**
  * 联系人列表Item项ViewHolder
- * @author: laohu on 2016/12/24
- * @site: http://ittiger.cn
  */
 public class ContactViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.contact_avatar)

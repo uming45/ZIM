@@ -16,8 +16,6 @@ import java.util.List;
 
 /**
  * 联系人列表数据适配器
- * @author: laohu on 2016/12/27
- * @site: http://ittiger.cn
  */
 public class ContactAdapter extends IndexStickyViewAdapter<ContactEntity> {
     private Context mContext;

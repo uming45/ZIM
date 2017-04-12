@@ -16,8 +16,6 @@ import java.util.List;
 
 /**
  * 可选联系人列表适配器
- * @author: laohu on 2017/1/24
- * @site: http://ittiger.cn
  */
 public class CheckableContactAdapter extends IndexStickyViewAdapter<CheckableContactEntity> {
     private Context mContext;

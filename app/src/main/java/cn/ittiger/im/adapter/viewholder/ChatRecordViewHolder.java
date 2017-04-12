@@ -9,10 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * @author: laohu on 2017/1/22
- * @site: http://ittiger.cn
- */
 public class ChatRecordViewHolder extends ViewHolder {
     @BindView(R.id.chat_friend_avatar)
     public ImageView avatar;

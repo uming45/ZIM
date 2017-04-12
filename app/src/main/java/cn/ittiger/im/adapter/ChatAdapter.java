@@ -37,8 +37,6 @@ import java.util.List;
 
 /**
  * 消息列表数据适配器
- * @author: laohu on 2017/1/17
- * @site: http://ittiger.cn
  */
 public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
     private static final int VIEW_TYPE_ME = 1;

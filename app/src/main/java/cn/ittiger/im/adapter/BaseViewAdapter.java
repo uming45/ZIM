@@ -11,8 +11,6 @@ import android.widget.BaseAdapter;
 
 /**
  * ListView的基础适配器
- * @author: huylee
- * @time:	2014-11-2下午8:44:03
  * @param <T>
  */
 public abstract class BaseViewAdapter<T> extends BaseAdapter {

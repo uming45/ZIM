@@ -15,9 +15,6 @@ import java.util.List;
 
 /**
  * 表情适配器
- *
- * @author: laohu on 2017/2/6
- * @site: http://ittiger.cn
  */
 public class EmotionAdapter extends BaseAdapter {
 

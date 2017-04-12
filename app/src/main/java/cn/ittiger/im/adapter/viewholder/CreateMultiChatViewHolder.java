@@ -9,10 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * @author: laohu on 2017/1/24
- * @site: http://ittiger.cn
- */
 public class CreateMultiChatViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.contact_check)
     ImageView checkImageView;
