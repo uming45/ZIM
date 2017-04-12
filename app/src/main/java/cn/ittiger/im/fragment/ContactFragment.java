@@ -42,8 +42,6 @@ import java.util.Set;
 
 /**
  * 联系人列表
- * @author: laohu on 2016/12/24
- * @site: http://ittiger.cn
  */
 public class ContactFragment extends BaseFragment {
     @BindView(R.id.contactRefreshLayout)

@@ -12,8 +12,6 @@ import android.view.View;
 
 /**
  * 列表垂直分割线
- * @author: laohu on 2017/2/6
- * @site: http://ittiger.cn
  */
 public class CommonVerticalItemDecoration extends RecyclerView.ItemDecoration {
 

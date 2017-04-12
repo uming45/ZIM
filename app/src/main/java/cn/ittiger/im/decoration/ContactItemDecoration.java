@@ -15,8 +15,6 @@ import android.view.View;
 
 /**
  * 联系人列表分割线
- * @author: laohu on 2016/12/27
- * @site: http://ittiger.cn
  */
 public class ContactItemDecoration extends RecyclerView.ItemDecoration {
 

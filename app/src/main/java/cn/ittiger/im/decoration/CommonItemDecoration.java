@@ -12,8 +12,6 @@ import android.view.View;
 
 /**
  * 聊天记录列表分割线
- * @author: laohu on 2016/12/27
- * @site: http://ittiger.cn
  */
 public class CommonItemDecoration extends RecyclerView.ItemDecoration {
 

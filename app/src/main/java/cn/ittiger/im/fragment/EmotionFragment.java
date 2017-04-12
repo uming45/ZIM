@@ -24,9 +24,6 @@ import java.util.List;
 
 /**
  * 表情Fragment
- *
- * @author: laohu on 2017/2/6
- * @site: http://ittiger.cn
  */
 public class EmotionFragment extends BaseEmotionFragment {
     @BindView(R.id.emotionIndicator)
