@@ -14,9 +14,6 @@ import java.util.Map;
 
 /**
  * 表情指示器
- *
- * @author: laohu on 2017/2/6
- * @site: http://ittiger.cn
  */
 public class EmotionIndicatorView extends LinearLayout {
     private Map<Integer, View> mIndicatorViewMap = new HashMap<>();//指示器页码索引与指示器圆的映射

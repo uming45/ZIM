@@ -11,10 +11,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 
-/**
- * @author: laohu on 2017/2/6
- * @site: http://ittiger.cn
- */
 public class EmotionItemClickListener implements GridView.OnItemClickListener {
     private Context mContext;
     private EditText mEditText;

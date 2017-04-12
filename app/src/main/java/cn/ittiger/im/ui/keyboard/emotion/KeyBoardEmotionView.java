@@ -34,10 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author: laohu on 2017/2/6
- * @site: http://ittiger.cn
- */
 public class KeyBoardEmotionView extends LinearLayout implements CommonRecyclerView.OnItemClickListener {
     /**
      * 使用ViewPager来实现每种表情Tab的内容视图

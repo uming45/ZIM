@@ -10,9 +10,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author laohu
- */
 public abstract class HeaderAndFooterAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     private static final int TYPE_HEADER = 100000;

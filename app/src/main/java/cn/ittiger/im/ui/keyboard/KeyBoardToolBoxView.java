@@ -28,9 +28,6 @@ import java.io.File;
 
 /**
  * 键盘顶部的输入相关布局
- *
- * @author: laohu on 2017/2/5
- * @site: http://ittiger.cn
  */
 public class KeyBoardToolBoxView extends RelativeLayout {
     private Activity mActivity;

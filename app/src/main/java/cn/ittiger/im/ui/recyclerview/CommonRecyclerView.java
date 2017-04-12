@@ -12,7 +12,6 @@ import android.view.View;
 
 /**
  * 通用RecyclerView，支持添加ItemClick和ItemLongClick事件，同时支持自动加载更多
- * Created by laohu on 16-7-21.
  */
 public class CommonRecyclerView extends RecyclerView {
 

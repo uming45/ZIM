@@ -24,8 +24,6 @@ import java.util.List;
 
 /**
  * KeyBoard更多功能视图
- * @author: laohu on 2017/2/4
- * @site: http://ittiger.cn
  */
 public class KeyBoardMoreFunView extends FrameLayout implements CommonRecyclerView.OnItemClickListener {
     @BindView(R.id.moreFunGridView)

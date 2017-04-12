@@ -25,8 +25,6 @@ import static android.widget.RelativeLayout.CENTER_IN_PARENT;
 
 /**
  * 聊天键盘
- * @author: laohu on 2016/12/24
- * @site: http://ittiger.cn
  */
 public class ChatKeyboard extends BaseKeyboardLayout implements
         KeyBoardMoreFunView.OnMoreFunItemClickListener{
