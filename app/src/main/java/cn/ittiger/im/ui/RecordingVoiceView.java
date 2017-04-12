@@ -11,9 +11,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-/**
- * Created by ylhu on 17-2-7.
- */
 public class RecordingVoiceView extends FrameLayout {
     @BindView(R.id.recording_voice_container)
     View mRecordingContainer;

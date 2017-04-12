@@ -20,9 +20,6 @@ import java.util.List;
 
 /**
  * 群聊管理类
- *
- * @author: laohu on 2017/2/3
- * @site: http://ittiger.cn
  */
 public class SmackMultiChatManager {
 

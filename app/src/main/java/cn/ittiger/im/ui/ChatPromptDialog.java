@@ -13,8 +13,6 @@ import android.support.v7.app.AlertDialog;
 
 /**
  * 联系人列表
- * @author: laohu on 2016/12/24
- * @site: http://ittiger.cn
  */
 public class ChatPromptDialog implements DialogInterface.OnClickListener {
 

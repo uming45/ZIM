@@ -14,8 +14,6 @@ import org.jivesoftware.smackx.muc.MultiUserChat;
 
 /**
  * 多人聊天邀请监听
- * @author: laohu on 2017/1/24
- * @site: http://ittiger.cn
  */
 public class MultiChatInvitationListener implements InvitationListener {
 

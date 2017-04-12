@@ -20,8 +20,6 @@ import java.util.regex.Pattern;
 
 /**
  * Smack普通消息监听处理
- * @author: laohu on 2017/1/18
- * @site: http://ittiger.cn
  */
 public class SmackChatManagerListener implements ChatManagerListener {
     private static final String PATTERN = "[a-zA-Z0-9_]+@";

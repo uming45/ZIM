@@ -17,8 +17,6 @@ import java.util.regex.Pattern;
 
 /**
  * 多人聊天消息监听
- * @author: laohu on 2017/1/24
- * @site: http://ittiger.cn
  */
 public class MultiChatMessageListener implements MessageListener {
     private static final String PATTERN = "[a-zA-Z0-9_]+@";
