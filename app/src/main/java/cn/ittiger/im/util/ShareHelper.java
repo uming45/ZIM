@@ -11,10 +11,6 @@ import android.net.Uri;
 
 import java.io.File;
 
-/**
- * @author laohu
- * @site http://ittiger.cn
- */
 public class ShareHelper {
 
     public static void shareApp(Context context) {

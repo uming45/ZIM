@@ -10,9 +10,6 @@ import java.util.List;
 
 /**
  * 表情数据帮助类
- *
- * @author: laohu on 2017/2/6
- * @site: http://ittiger.cn
  */
 public class EmotionDataHelper {
     /**

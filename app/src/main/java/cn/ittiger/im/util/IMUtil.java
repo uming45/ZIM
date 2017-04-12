@@ -17,10 +17,6 @@ import android.content.Intent;
 
 import java.lang.reflect.Field;
 
-/**
- * @author: laohu on 2017/1/22
- * @site: http://ittiger.cn
- */
 public final class IMUtil {
 
     private static final String KEY_STORE_KEYBOARD_HEIGHT = "_key_store_keyboard_height";

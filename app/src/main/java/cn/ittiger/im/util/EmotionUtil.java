@@ -15,9 +15,6 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by ylhu on 17-2-6.
- */
 public class EmotionUtil {
 
     /**

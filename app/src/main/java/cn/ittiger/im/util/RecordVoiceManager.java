@@ -16,8 +16,6 @@ import java.util.Date;
 
 /**
  * 录音
- * @author: laohu on 2017/2/7
- * @site: http://ittiger.cn
  */
 public class RecordVoiceManager {
     /**

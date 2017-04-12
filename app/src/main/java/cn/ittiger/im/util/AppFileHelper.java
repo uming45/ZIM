@@ -8,8 +8,6 @@ import java.io.File;
 
 /**
  * 应用相关文件帮助类
- * @author: laohu on 2017/1/18
- * @site: http://ittiger.cn
  */
 public class AppFileHelper {
 

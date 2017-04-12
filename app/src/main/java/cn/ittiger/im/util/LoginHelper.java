@@ -3,9 +3,6 @@ package cn.ittiger.im.util;
 import cn.ittiger.im.bean.User;
 import cn.ittiger.util.PreferenceHelper;
 
-/**
- * Created by laohu on 16-12-14.
- */
 public class LoginHelper {
 
     private static final String KEY_REMEMBER_PASSWORD = "pre_key_remember_password";
