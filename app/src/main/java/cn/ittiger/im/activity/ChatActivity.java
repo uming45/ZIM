@@ -171,7 +171,7 @@ public class ChatActivity extends BaseChatActivity {
         msg.setMeUsername(mChatUser.getMeUsername());
         msg.setMeNickname(mChatUser.getMeNickname());
         msg.setFilePath(file.getAbsolutePath());
-        DBHelper.getInstance().getSQLiteDB().save(msg);
+//        DBHelper.getInstance().getSQLiteDB().save(msg); // 此处注释掉4.13
 
         Observable.create(new Observable.OnSubscribe<ChatMessage>(){
             @Override
@@ -201,11 +201,13 @@ public class ChatActivity extends BaseChatActivity {
         .subscribe(new Action1<ChatMessage>() {
             @Override
             public void call(ChatMessage chatMessage) {
-                if (FileTransfer.Status.complete.toString().equals(transfer.getStatus())) {//传输完成
+                if (FileTransfer.Status.complete.toString().equals(transfer.getStatus().toString())) { //传输完成
                     chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_SUCCESS.value());
+                    DBHelper.getInstance().getSQLiteDB().save(chatMessage); // 将加载状态写入数据库 0 -> 1 or 2
                     mAdapter.update(chatMessage);
                 } else {
                     chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_ERROR.value());
+                    DBHelper.getInstance().getSQLiteDB().save(chatMessage);
                     mAdapter.update(chatMessage);
                 }
             }
