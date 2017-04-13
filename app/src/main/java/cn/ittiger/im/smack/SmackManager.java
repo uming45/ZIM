@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jivesoftware.smack.ReconnectionManager;
-import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.SmackException.NoResponseException;
@@ -113,7 +112,7 @@ public class SmackManager {
                     .setPort(PORT)
                     //是否开启压缩
                     .setCompressionEnabled(true)
-                    //设置用户是否上线 TEST
+                    //设置用户是否上线
                     .setSendPresence(false)
                     //开启调试模式
                     .setDebuggerEnabled(true).build();
