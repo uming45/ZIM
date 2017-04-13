@@ -348,6 +348,11 @@ public class ChatActivity extends BaseChatActivity {
                 if (dataUri != null) {
 
                     File file = FileUtil.uri2File(this, dataUri);
+                    // deal with null
+                    if (file == null) {
+                        UIUtil.showToast(this, "不支持您选择的文件管理器，\n请使用系统自带的文件管理器！");
+                        return;
+                    }
                     sendFile(file, MessageType.MESSAGE_TYPE_FILE.value());
 
                 } else {

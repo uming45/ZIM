@@ -150,6 +150,10 @@ public final class FileUtil {
             @SuppressWarnings("deprecation")
             Cursor actualimagecursor = aty.managedQuery(uri, proj, null, null,
                     null);
+            // deal with null
+            if (actualimagecursor == null) {
+                return null;
+            }
             int actual_image_column_index = actualimagecursor
                     .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             actualimagecursor.moveToFirst();
@@ -162,10 +166,18 @@ public final class FileUtil {
             CursorLoader loader = new CursorLoader(aty, uri, projection, null,
                     null, null);
             Cursor cursor = loader.loadInBackground();
+            // deal with null
+            if (cursor == null) {
+                return null;
+            }
+
             int column_index = cursor
                     .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
-            return new File(cursor.getString(column_index));
+            String result = cursor.getString(column_index);
+            cursor.close();
+
+            return new File(result);
         }
     }
 
