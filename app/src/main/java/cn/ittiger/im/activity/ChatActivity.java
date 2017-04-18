@@ -55,6 +55,7 @@ public class ChatActivity extends BaseChatActivity {
      * 聊天窗口对象
      */
     private Chat mChat;
+    private static int has_add_listener = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +63,19 @@ public class ChatActivity extends BaseChatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_layout);
         mChat = SmackManager.getInstance().createChat(mChatUser.getChatJid());
-        addReceiveFileListener();
+        if (has_add_listener == 0) { // 解决多次收到图片等的问题
+            addReceiveFileListener();
+            has_add_listener = 1;
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onReceiveChatMessageEvent(ChatMessage message) {
+    public void onReceiveChatMessageEvent(ChatMessage message) { // 发送消息或接收消息时都执行
 
-        if(mChatUser.getMeUsername().equals(message.getMeUsername()) && !message.isMulti()) {
+//        if(mChatUser.getMeUsername().equals(message.getMeUsername()) && !message.isMulti()) {
+//            addChatMessageView(message);
+//        }
+        if(mChatUser.getFriendUsername().equals(message.getFriendUsername())) {
             addChatMessageView(message);
         }
     }
