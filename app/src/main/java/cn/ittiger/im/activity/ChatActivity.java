@@ -33,6 +33,7 @@ import cn.ittiger.im.smack.SmackManager;
 import cn.ittiger.im.util.AppFileHelper;
 import cn.ittiger.im.util.DBHelper;
 import cn.ittiger.im.util.Filter;
+import cn.ittiger.im.util.ReceiveFileListenerUtil;
 import cn.ittiger.util.BitmapUtil;
 import cn.ittiger.util.DateUtil;
 import cn.ittiger.util.FileUtil;
@@ -55,26 +56,21 @@ public class ChatActivity extends BaseChatActivity {
      * 聊天窗口对象
      */
     private Chat mChat;
-    private static int has_add_listener = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_layout);
+
         mChat = SmackManager.getInstance().createChat(mChatUser.getChatJid());
-        if (has_add_listener == 0) { // 解决多次收到图片等的问题
-            addReceiveFileListener();
-            has_add_listener = 1;
-        }
+        addReceiveFileListener();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveChatMessageEvent(ChatMessage message) { // 发送消息或接收消息时都执行
 
-//        if(mChatUser.getMeUsername().equals(message.getMeUsername()) && !message.isMulti()) {
-//            addChatMessageView(message);
-//        }
+        // 当前聊天对象名称与消息好友名称一致时，添加消息
         if(mChatUser.getFriendUsername().equals(message.getFriendUsername())) {
             addChatMessageView(message);
         }
@@ -125,7 +121,6 @@ public class ChatActivity extends BaseChatActivity {
      */
     public void sendFile(final File file, int messageType) {
 
-        Logger.d("wangdsh ChatActivity sendFile(): " + mChatUser.getFileJid(), "wangdsh");
         String FileJIDFilter = mChatUser.getFileJid();
         Filter filter = new Filter();
 
@@ -143,23 +138,39 @@ public class ChatActivity extends BaseChatActivity {
      */
     public void addReceiveFileListener() {
 
-        SmackManager.getInstance().addFileTransferListener(new FileTransferListener() {
+        FileTransferListener fileTransferListener = new FileTransferListener() {
             @Override
             public void fileTransferRequest(FileTransferRequest request) {
-                // Accept it
-                IncomingFileTransfer transfer = request.accept();
-                try {
-                    int messageType = Integer.parseInt(request.getDescription());
+                String requestor = request.getRequestor(); // eg. 602@laboratory/Smack
 
-                    File dir = AppFileHelper.getAppChatMessageDir(messageType);
-                    File file = new File(dir, request.getFileName());
-                    transfer.recieveFile(file);
-                    checkTransferStatus(transfer, file, messageType, false);
-                } catch (SmackException | IOException e) {
-                    Logger.e(e, "receive file failure");
+                if (mChatUser.getFriendUsername().equals(requestor.substring(0, requestor.lastIndexOf('@')))) {
+                    // Accept it
+                    IncomingFileTransfer transfer = request.accept();
+
+                    try {
+                        int messageType = Integer.parseInt(request.getDescription());
+
+                        File dir = AppFileHelper.getAppChatMessageDir(messageType);
+                        File file = new File(dir, request.getFileName());
+                        transfer.recieveFile(file);
+                        checkTransferStatus(transfer, file, messageType, false);
+
+                    } catch (SmackException | IOException e) {
+                        Logger.e(e, "receive file failure");
+                    }
                 }
             }
-        });
+        };
+
+        String jid = mChatUser.getFriendUsername();
+        if (ReceiveFileListenerUtil.hasJid(jid)) { // jid已存在,则删除用新的替换
+            FileTransferListener previous  = ReceiveFileListenerUtil.getReceiveFileListener(jid);
+            ReceiveFileListenerUtil.removeReceiveFileListener(jid);
+            SmackManager.getInstance().removeFileTransferListener(previous);
+        }
+
+        SmackManager.getInstance().addFileTransferListener(fileTransferListener);
+        ReceiveFileListenerUtil.addFileListener(jid, fileTransferListener);
     }
 
     /**
@@ -208,16 +219,18 @@ public class ChatActivity extends BaseChatActivity {
         .subscribe(new Action1<ChatMessage>() {
             @Override
             public void call(ChatMessage chatMessage) {
+
                 if (FileTransfer.Status.complete.toString().equals(transfer.getStatus().toString())) { //传输完成
                     chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_SUCCESS.value());
-                    DBHelper.getInstance().getSQLiteDB().save(chatMessage); // 将加载状态写入数据库 0 -> 1 or 2
-                    mAdapter.update(chatMessage);
                 } else {
                     chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_ERROR.value());
-                    DBHelper.getInstance().getSQLiteDB().save(chatMessage);
-                    mAdapter.update(chatMessage);
                 }
-            }
+
+                DBHelper.getInstance().getSQLiteDB().save(chatMessage); // 将加载状态写入数据库 0 -> 1 or 2
+                Logger.d("wangdsh checkTransferStatus1: " + mAdapter.toString(), "wangdsh");
+                mAdapter.update(chatMessage);
+                Logger.d("wangdsh checkTransferStatus1: " + mAdapter.getItemCount(), "wangdsh");
+        }
         });
     }
 

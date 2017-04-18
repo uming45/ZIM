@@ -565,120 +565,19 @@ public class SmackManager {
         throw new NullPointerException("服务器连接失败，请先连接服务器");
     }
 
-    /*<iq from="6b74ad17-d2f6-47c8-98ec-46f45611cfeb@conference.121.42.13.79" id="92xQT-13" to="zhangsan@121.42.13.79/Smack" type="result">
-        <query xmlns="http://jabber.org/protocol/muc#owner">
-        <x type="form" xmlns="jabber:x:data">
-        <title>房间配置</title>
-        <instructions>已创建房间“6b74ad17-d2f6-47c8-98ec-46f45611cfeb”。要接受缺省配置，请单击“确定”按钮。或填写以下表单以完成设置：</instructions>
-        <field type="hidden" var="FORM_TYPE">
-        <value>http://jabber.org/protocol/muc#roomconfig</value>
-        </field>
-        <field label="房间名称" type="text-single" var="muc#roomconfig_roomname">
-        <value>6b74ad17-d2f6-47c8-98ec-46f45611cfeb</value>
-        </field>
-        <field label="描述" type="text-single" var="muc#roomconfig_roomdesc">
-        <value>6b74ad17-d2f6-47c8-98ec-46f45611cfeb</value>
-        </field>
-        <field label="允许占有者更改主题" type="boolean" var="muc#roomconfig_changesubject">
-        <value>0</value>
-        </field>
-        <field label="最大房间占有者人数" type="list-single" var="muc#roomconfig_maxusers">
-        <option label="10">
-        <value>10</value>
-        </option>
-        <option label="20">
-        <value>20</value>
-        </option>
-        <option label="30">
-        <value>30</value>
-        </option>
-        <option label="40">
-        <value>40</value>
-        </option>
-        <option label="50">
-        <value>50</value>
-        </option>
-        <option label="无">
-        <value>0</value>
-        </option>
-        <value>30</value>
-        </field>
-        <field label="其 Presence 是 Broadcast 的角色" type="list-multi" var="muc#roomconfig_presencebroadcast">
-        <option label="主持者">
-        <value>mode 01-24 17:30:26.801 15469-16510/cn.ittiger.im D/SMACK: RECV (0): rator</value>
-        </option>
-        <option label="参与者">
-        <value>participant</value>
-        </option>
-        <option label="访客">
-        <value>visitor</value>
-        </option>
-        <value>moderator</value>
-        <value>participant</value>
-        <value>visitor</value>
-        </field>
-        <field label="列出目录中的房间" type="boolean" var="muc#roomconfig_publicroom">
-        <value>1</value>
-        </field>
-        <field label="房间是持久的" type="boolean" var="muc#roomconfig_persistentroom">
-        <value>0</value>
-        </field>
-        <field label="房间是适度的" type="boolean" var="muc#roomconfig_moderatedroom">
-        <value>0</value>
-        </field>
-        <field label="房间仅对成员开放" type="boolean" var="muc#roomconfig_membersonly">
-        <value>0</value>
-        </field>
-        <field type="fixed">
-        <value>注意：缺省情况下，只有管理员才可以在仅用于邀请的房间中发送邀请。</value>
-        </field>
-        <field label="允许占有者邀请其他人" type="boolean" var="muc#roomconfig_allowinvites">
-        <value>0</value>
-        </field>
-        <field label="需要密码才能进入房间" type="boolean" var="muc#roomconfig_passwordprotectedroom">
-        <value>0</value>
-        </field>
-        <field type="fixed">
-        <value>如果需要密码才能进入房间，则您必须在下面指定密码。</value>
-        </field>
-        <field label="密码" type="text-private" var="muc#roomconfig_roomsecret"/>
-        <field label="能够发现占有者真实 JID 的角色" type="list-single" var="muc#roomconfig_whois">
-        <option label="主持者">
-        <value>moderators</value>
-        </option>
-        <option label="任何人">
-        <value>anyone</value>
-        </option>
-        <value>anyone</value>
-        </field>
-        <field label="登录房间对话" type="boolean" var="muc#roomconfig_enablelogging">
-        <value>0</value>
-        </field>
-        <field label="仅允许注册的昵称登录" type="boolean" var="x-muc#roomconfig_reservednick">
-        <value>0</value>
-        </field>
-        <field label="允许使用者修改昵称" type="boolean" var="x-muc#roomconfig_canchangenick">
-        <value>1</value>
-        </field>
-        <field type="fixed">
-        <value>允许用户注册房间</value>
-        </field>
-        <field label="允许用户注册房间" type="boolean" var="x-muc#roomconfig_registration">
-        <value>1</value>
-        </field>
-        <field type="fixed">
-        <value>您可以指定该房间的管理员。请在每行提供一个 JID。</value>
-        </field>
-        <field label="房间管理员" type="jid-multi" var="muc#roomconfig_roomadmins"/>
-        <field type="fixed">
-        <value>您可以指定该房间的其他拥有者。请在每行提供一个 JID。</value>
-        </field>
-        <field label="房间拥有者" type="jid-multi" var="muc#roomconfig_roomowners">
-        <value>zhangsan@121.42.13.79</value>
-        </field>
-        </x>
-        </query>
-    </iq>*/
+    /**
+     * 删除文件接收的监听
+     *
+     * @param fileTransferListener
+     */
+    public void removeFileTransferListener(FileTransferListener fileTransferListener) {
+
+        if (isConnected()) {
+            FileTransferManager.getInstanceFor(mConnection).removeFileTransferListener(fileTransferListener);
+            return;
+        }
+        throw new NullPointerException("服务器连接失败，请先连接服务器");
+    }
 
     /**
      * 创建群聊聊天室
