@@ -133,10 +133,10 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
 
             TextView file_tag_tv = (TextView)viewHolder.chatContentFile.findViewById(R.id.file_message_tv_tab);
             if (message.isMeSend()) {
-                file_tag_tv.setText("发送文件：");
+                file_tag_tv.setText(polishFileSize(message.getFileSize()));
                 //viewHolder.chatContentFile.setText("发送文件: \n" + fileName.trim());
             } else {
-                file_tag_tv.setText("接收文件：");
+                file_tag_tv.setText(polishFileSize(message.getFileSize()));
             }
 
             TextView file_name_tv = (TextView)viewHolder.chatContentFile.findViewById(R.id.file_message_tv_filename);
@@ -322,6 +322,23 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
 
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+    }
+
+    /**
+     * 文件大小格式调整
+     * @param filesize
+     * @return
+     */
+    public String polishFileSize(long filesize){
+        if(filesize >= 1024*1024*1024){
+            return (filesize/(1024*1024*1024)) + "GB";
+        }else if(filesize > 1024*1024){
+            return (filesize/(1024*1024)) + "MB";
+        }else if(filesize > 1024){
+            return (filesize/1024) + "KB";
+        }else {
+            return filesize + "B";
         }
     }
 }

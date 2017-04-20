@@ -127,7 +127,7 @@ public class ChatActivity extends BaseChatActivity {
         final OutgoingFileTransfer transfer = SmackManager.getInstance().getSendFileTransfer(filter.filterFileJid(FileJIDFilter));
         try {
             transfer.sendFile(file, String.valueOf(messageType));
-            checkTransferStatus(transfer, file, messageType, true);
+            checkTransferStatus(transfer, file, messageType, true, file.length());
         } catch (SmackException e) {
             Logger.e(e, "send file failure");
         }
@@ -153,7 +153,7 @@ public class ChatActivity extends BaseChatActivity {
                         File dir = AppFileHelper.getAppChatMessageDir(messageType);
                         File file = new File(dir, request.getFileName());
                         transfer.recieveFile(file);
-                        checkTransferStatus(transfer, file, messageType, false);
+                        checkTransferStatus(transfer, file, messageType, false, request.getFileSize());
 
                     } catch (SmackException | IOException e) {
                         Logger.e(e, "receive file failure");
@@ -181,14 +181,14 @@ public class ChatActivity extends BaseChatActivity {
      * @param messageType       文件类型，语音或图片
      * @param isMeSend            是否为发送
      */
-    private void checkTransferStatus(final FileTransfer transfer, final File file, final int messageType, final boolean isMeSend) {
-
+    private void checkTransferStatus(final FileTransfer transfer, final File file, final int messageType, final boolean isMeSend, long filesize){
         final ChatMessage msg = new ChatMessage(messageType, isMeSend);
         msg.setFriendNickname(mChatUser.getFriendNickname());
         msg.setFriendUsername(mChatUser.getFriendUsername());
         msg.setMeUsername(mChatUser.getMeUsername());
         msg.setMeNickname(mChatUser.getMeNickname());
         msg.setFilePath(file.getAbsolutePath());
+        msg.setFileSize(filesize);
 //        DBHelper.getInstance().getSQLiteDB().save(msg); // 此处注释掉4.13
 
         Observable.create(new Observable.OnSubscribe<ChatMessage>(){
@@ -199,39 +199,39 @@ public class ChatActivity extends BaseChatActivity {
                 subscriber.onCompleted();
             }
         })
-        .subscribeOn(AndroidSchedulers.mainThread())
-        .observeOn(Schedulers.io())
-        .map(new Func1<ChatMessage, ChatMessage>() {
-            @Override
-            public ChatMessage call(ChatMessage chatMessage) {
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
+                .map(new Func1<ChatMessage, ChatMessage>() {
+                    @Override
+                    public ChatMessage call(ChatMessage chatMessage) {
 
-                while (!transfer.isDone()) {//判断传输是否完成
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        while (!transfer.isDone()) {//判断传输是否完成
+                            try {
+                                Thread.sleep(200);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return chatMessage;
                     }
-                }
-                return chatMessage;
-            }
-        })
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Action1<ChatMessage>() {
-            @Override
-            public void call(ChatMessage chatMessage) {
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ChatMessage>() {
+                    @Override
+                    public void call(ChatMessage chatMessage) {
 
-                if (FileTransfer.Status.complete.toString().equals(transfer.getStatus().toString())) { //传输完成
-                    chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_SUCCESS.value());
-                } else {
-                    chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_ERROR.value());
-                }
+                        if (FileTransfer.Status.complete.toString().equals(transfer.getStatus().toString())) { //传输完成
+                            chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_SUCCESS.value());
+                        } else {
+                            chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_ERROR.value());
+                        }
 
-                DBHelper.getInstance().getSQLiteDB().save(chatMessage); // 将加载状态写入数据库 0 -> 1 or 2
-                Logger.d("wangdsh checkTransferStatus1: " + mAdapter.toString(), "wangdsh");
-                mAdapter.update(chatMessage);
-                Logger.d("wangdsh checkTransferStatus1: " + mAdapter.getItemCount(), "wangdsh");
-        }
-        });
+                        DBHelper.getInstance().getSQLiteDB().save(chatMessage); // 将加载状态写入数据库 0 -> 1 or 2
+                        Logger.d("wangdsh checkTransferStatus1: " + mAdapter.toString(), "wangdsh");
+                        mAdapter.update(chatMessage);
+                        Logger.d("wangdsh checkTransferStatus1: " + mAdapter.getItemCount(), "wangdsh");
+                    }
+                });
     }
 
     /**

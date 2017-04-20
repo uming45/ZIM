@@ -77,6 +77,11 @@ public class ChatMessage implements Parcelable {
     @Column(columnName = "fileLoadState")
     private int mFileLoadState = FileLoadState.STATE_LOAD_START.value();
     /**
+     * 文件大小
+     */
+    @Column(columnName = "fileSize")
+    private long mFileSize;
+    /**
      * 是否为群聊记录
      */
     @Column(columnName = "isMulti")
@@ -193,6 +198,14 @@ public class ChatMessage implements Parcelable {
     public void setFileLoadState(int fileLoadState) {
 
         mFileLoadState = fileLoadState;
+    }
+
+    public long getFileSize(){
+        return mFileSize;
+    }
+
+    public void setFileSize(long fileSize){
+        mFileSize = fileSize;
     }
 
     public String getUuid() {

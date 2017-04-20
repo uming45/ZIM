@@ -22,16 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/file_message_tv_tab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="file_name"
-            android:paddingBottom="@dimen/dimen_1"
-            android:paddingLeft="@dimen/dimen_4"
-            android:paddingRight="@dimen/dimen_4"
-            android:paddingTop="@dimen/dimen_1"
-            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/file_message_tv_filename"
@@ -42,6 +32,17 @@
             android:paddingLeft="@dimen/dimen_4"
             android:paddingRight="@dimen/dimen_4"
             android:paddingTop="@dimen/dimen_1"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/file_message_tv_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="file_name"
+            android:paddingBottom="@dimen/dimen_1"
+            android:paddingLeft="@dimen/dimen_10"
+            android:paddingRight="@dimen/dimen_10"
+            android:paddingTop="@dimen/dimen_8"
             android:textSize="12sp"/>
     </LinearLayout>
 
