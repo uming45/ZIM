@@ -140,6 +140,9 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
             }
 
             TextView file_name_tv = (TextView)viewHolder.chatContentFile.findViewById(R.id.file_message_tv_filename);
+            if(fileName.length()>15){
+                fileName = fileName.substring(0,6) + "..." + fileName.substring(fileName.length()-6,fileName.length());
+            }
             file_name_tv.setText(fileName.trim());
 
             viewHolder.chatContentFile.setOnClickListener(new View.OnClickListener(){//文件点击

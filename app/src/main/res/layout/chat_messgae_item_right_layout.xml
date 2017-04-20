@@ -5,25 +5,23 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
+    <!--android:background="@drawable/bg_chat_time_tag"-->
     <TextView
         android:id="@+id/tv_chat_msg_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/bg_chat_time_tag"
         android:gravity="center"
-        android:paddingBottom="@dimen/dimen_1"
         android:paddingLeft="@dimen/dimen_4"
         android:paddingRight="@dimen/dimen_4"
-        android:paddingTop="@dimen/dimen_1"
-        android:textColor="@color/white"
+        android:paddingTop="@dimen/dimen_10"
+        android:textColor="#a7a1a1"
         android:textSize="12sp"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_5"
-        android:layout_marginTop="@dimen/dimen_3">
+        android:layout_marginLeft="@dimen/dimen_5">
 
         <ImageView
             android:id="@+id/iv_chat_avatar"
@@ -40,8 +38,7 @@
             android:id="@+id/tv_chat_msg_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dimen_5"
-            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_marginRight="@dimen/dimen_10"
             android:layout_toLeftOf="@+id/iv_chat_avatar"/>
 
         <RelativeLayout
@@ -49,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_chat_msg_username"
-            android:layout_marginRight="@dimen/dimen_5"
+            android:layout_marginRight="@dimen/dimen_10"
             android:layout_marginTop="@dimen/dimen_2"
             android:layout_toLeftOf="@+id/iv_chat_avatar"
             android:background="@drawable/chat_to_bg_selector"
@@ -59,13 +56,14 @@
                 android:id="@+id/tv_chat_msg_content_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:maxWidth="230dp"
                 android:singleLine="false"/>
 
             <ImageView
                 android:id="@+id/iv_chat_msg_content_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dimen_4"
                 android:adjustViewBounds="true"
                 android:maxHeight="150dp"
                 android:maxWidth="150dp"

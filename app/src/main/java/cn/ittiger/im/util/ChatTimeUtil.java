@@ -61,43 +61,21 @@ public class ChatTimeUtil {
         return getFriendlyTimeSpanByNow(time, DEFAULT_PATTERN);
     }
 
-    /**
-     * 获取友好型与当前时间的差
-     * <p>time格式为pattern</p>
-     *
-     * @param time    时间字符串
-     * @param pattern 时间格式
-     * @return 友好型与当前时间的差
-     * <ul>
-     * <li>如果小于1秒钟内，显示刚刚</li>
-     * <li>如果在1分钟内，显示XXX秒前</li>
-     * <li>如果在1小时内，显示XXX分钟前</li>
-     * <li>如果在1小时外的今天内，显示今天15:32</li>
-     * <li>如果是昨天的，显示昨天15:32</li>
-     * <li>其余显示，2016-10-15</li>
-     * <li>时间不合法的情况全部日期和时间信息，如星期六 十月 27 14:21:20 CST 2007</li>
-     * </ul>
-     */
     public static String getFriendlyTimeSpanByNow(String time, String pattern) {
         return getFriendlyTimeSpanByNow(string2Millis(time, pattern));
     }
 
-    /**
-     * 获取友好型与当前时间的差
-     *
-     * @param millis 毫秒时间戳
-     * @return 友好型与当前时间的差
-     * <ul>
-     * <li>如果小于1秒钟内，显示刚刚</li>
-     * <li>如果在1分钟内，显示XXX秒前</li>
-     * <li>如果在1小时内，显示XXX分钟前</li>
-     * <li>如果在1小时外的今天内，显示今天15:32</li>
-     * <li>如果是昨天的，显示昨天15:32</li>
-     * <li>如果是同一周的则显示星期几</li>
-     * <li>其余显示，2016-10-15</li>
-     * <li>时间不合法的情况全部日期和时间信息，如星期六 十月 27 14:21:20 CST 2007</li>
-     * </ul>
-     */
+
+//    public static boolean whetherToShowTime(String time){
+//        long now = System.currentTimeMillis();
+//        long millis = string2Millis(time, DEFAULT_PATTERN);
+//        long span = now - millis;
+//        if(span < 3600){
+//            return true;
+//        }else {
+//            return false;
+//        }
+//    }
     @SuppressLint("DefaultLocale")
     public static String getFriendlyTimeSpanByNow(long millis) {
         long now = System.currentTimeMillis();
@@ -106,10 +84,12 @@ public class ChatTimeUtil {
             return "";
 //            return String.format("%tc", millis);// U can read http://www.apihome.cn/api/java/Formatter.html to understand it.
         if (span < 1000) {
-            return "刚刚";
-        } else if (span < 60000) {
-            return String.format("%d秒前", span / 1000);
-        } else if (span < 3600000) {
+//            return "刚刚";
+            return "";
+        } else if (span < 300000) {
+//            return String.format("%d秒前", span / 1000);
+            return "";
+        } else if (span < 600000) {
             return String.format("%d分钟前", span / 60000);
         }
         // 获取当天00:00
