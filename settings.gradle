@@ -1,1 +1,1 @@
-include ':app', ':TigerLibrary'
+include ':app', ':MyLibrary'
