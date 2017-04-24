@@ -16,7 +16,7 @@
         android:layout_below="@id/toolbar"
         android:orientation="vertical">
 
-        <cn.ittiger.im.ui.recyclerview.CommonRecyclerView
+        <cn.mobcommu.zim.ui.recyclerview.CommonRecyclerView
             android:id="@+id/chat_content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -25,7 +25,7 @@
 
         <include layout="@layout/divider_horizontal_view"/>
 
-        <cn.ittiger.im.ui.keyboard.ChatKeyboard
+        <cn.mobcommu.zim.ui.keyboard.ChatKeyboard
             android:id="@+id/ckb_chat_board"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

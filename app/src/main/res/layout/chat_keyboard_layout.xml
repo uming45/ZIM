@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <!-- 键盘Top部分，包含输入框，发送按钮，表情，更多功能按钮等 -->
-    <cn.ittiger.im.ui.keyboard.KeyBoardToolBoxView
+    <cn.mobcommu.zim.ui.keyboard.KeyBoardToolBoxView
         android:id="@+id/keyboard_toolbox_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:visibility="gone">
 
         <!-- more View -->
-        <cn.ittiger.im.ui.keyboard.KeyBoardMoreFunView
+        <cn.mobcommu.zim.ui.keyboard.KeyBoardMoreFunView
             android:id="@+id/keyboard_more_fun_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -38,7 +38,7 @@
             android:paddingRight="@dimen/dimen_30"/>
 
         <!-- emotion view 可实现多种类型的表情 -->
-        <cn.ittiger.im.ui.keyboard.emotion.KeyBoardEmotionView
+        <cn.mobcommu.zim.ui.keyboard.emotion.KeyBoardEmotionView
             android:id="@+id/keyboard_emotion_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

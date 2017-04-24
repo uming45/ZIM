@@ -7,7 +7,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "cn.ittiger.im"
+        applicationId "cn.mobcommu.zim"
         minSdkVersion 14
         targetSdkVersion 18
         versionCode 2
