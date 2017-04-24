@@ -38,8 +38,7 @@ import org.greenrobot.eventbus.ThreadMode;
  * 主页面
  */
 public class MainActivity extends IMBaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        TabHost.OnTabChangeListener, Toolbar.OnMenuItemClickListener {
+        implements TabHost.OnTabChangeListener, Toolbar.OnMenuItemClickListener {
     static {
         /**
          * 此方法必须必须引用appcompat-v7:23.4.0
@@ -65,8 +64,8 @@ public class MainActivity extends IMBaseActivity
      */
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-    @BindView(R.id.nav_container)
-    NavigationView mNavigationView;
+//    @BindView(R.id.nav_container)
+//    NavigationView mNavigationView;
     @BindView(android.R.id.tabhost)
     FragmentSaveStateTabHost mTabHost;
 
@@ -97,7 +96,7 @@ public class MainActivity extends IMBaseActivity
 //        mDrawerLayout.setDrawerListener(toggle);
 //        toggle.syncState();
 
-        mNavigationView.setNavigationItemSelectedListener(this);
+//        mNavigationView.setNavigationItemSelectedListener(this);
         mToolbar.setNavigationIcon(R.drawable.ic_toolbar_avatar);
         mToolbar.setOnMenuItemClickListener(this);
 //        mDrawerLayout.addDrawerListener(new NavDrawerListener());
@@ -137,27 +136,27 @@ public class MainActivity extends IMBaseActivity
         mToolbarTitle.setText(tabId);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        if(item.isChecked()) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            return true;
-        }
-
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.nav_share:
-                ShareHelper.shareApp(mActivity);
-                break;
-            case R.id.nav_about:
-                ActivityUtil.startActivity(mActivity, AboutActivity.class);
-                break;
-        }
-        mDrawerLayout.closeDrawer(GravityCompat.START);
-
-        return true;
-    }
+//    @Override
+//    public boolean onNavigationItemSelected(MenuItem item) {
+//
+//        if(item.isChecked()) {
+//            mDrawerLayout.closeDrawer(GravityCompat.START);
+//            return true;
+//        }
+//
+//        int id = item.getItemId();
+//        switch (id) {
+//            case R.id.nav_share:
+//                ShareHelper.shareApp(mActivity);
+//                break;
+//            case R.id.nav_about:
+//                ActivityUtil.startActivity(mActivity, AboutActivity.class);
+//                break;
+//        }
+//        mDrawerLayout.closeDrawer(GravityCompat.START);
+//
+//        return true;
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -204,35 +203,35 @@ public class MainActivity extends IMBaseActivity
     /**
      * 为抽屉内部设置监听器
      */
-    class NavDrawerListener implements DrawerLayout.DrawerListener {
-
-        @Override
-        public void onDrawerSlide(View drawerView, float slideOffset) {
-
-        }
-
-        @Override
-        public void onDrawerOpened(View drawerView) {
-
-        }
-
-        @Override
-        public void onDrawerClosed(View drawerView) {
-
-            int size = mNavigationView.getMenu().size();
-            for(int i = 0; i < size; i++) {
-                if(mNavigationView.getMenu().getItem(i).isChecked()) {
-                    mNavigationView.getMenu().getItem(i).setChecked(false);
-                    break;
-                }
-            }
-        }
-
-        @Override
-        public void onDrawerStateChanged(int newState) {
-
-        }
-    }
+//    class NavDrawerListener implements DrawerLayout.DrawerListener {
+//
+//        @Override
+//        public void onDrawerSlide(View drawerView, float slideOffset) {
+//
+//        }
+//
+//        @Override
+//        public void onDrawerOpened(View drawerView) {
+//
+//        }
+//
+//        @Override
+//        public void onDrawerClosed(View drawerView) {
+//
+//            int size = mNavigationView.getMenu().size();
+//            for(int i = 0; i < size; i++) {
+//                if(mNavigationView.getMenu().getItem(i).isChecked()) {
+//                    mNavigationView.getMenu().getItem(i).setChecked(false);
+//                    break;
+//                }
+//            }
+//        }
+//
+//        @Override
+//        public void onDrawerStateChanged(int newState) {
+//
+//        }
+//    }
 
     @Override
     protected void onDestroy() {
