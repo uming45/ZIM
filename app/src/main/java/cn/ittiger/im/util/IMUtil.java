@@ -2,7 +2,6 @@ package cn.ittiger.im.util;
 
 import cn.ittiger.app.AppContext;
 import cn.ittiger.im.activity.ChatActivity;
-import cn.ittiger.im.activity.MultiChatActivity;
 import cn.ittiger.im.bean.ChatRecord;
 import cn.ittiger.im.bean.ChatUser;
 import cn.ittiger.util.ActivityUtil;
@@ -10,7 +9,6 @@ import cn.ittiger.util.PreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jivesoftware.smack.roster.RosterEntry;
-import org.jivesoftware.smackx.muc.MultiUserChat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -80,25 +78,9 @@ public final class IMUtil {
 
     public static void startChatActivity(Context context, ChatUser chatUser) {
 
-        Intent intent;
-        if(chatUser.isMulti()) {
-            intent = new Intent(context, MultiChatActivity.class);
-        } else {
-            intent = new Intent(context, ChatActivity.class);
-        }
+        Intent intent = new Intent(context, ChatActivity.class);
         intent.putExtra(IntentHelper.KEY_CHAT_DIALOG, chatUser);
         ActivityUtil.startActivity(context, intent);
     }
 
-    public static void startMultiChatActivity(Context context, MultiUserChat multiUserChat) {
-
-        ChatUser chatUser = DBQueryHelper.queryChatUser(multiUserChat);
-        ChatRecord chatRecord = DBQueryHelper.queryChatRecord(chatUser.getUuid());
-        if(chatRecord == null) {
-            chatRecord = new ChatRecord(chatUser);
-        }
-        EventBus.getDefault().post(chatRecord);//发起聊天时，发送一个事件到消息列表界面进行处理，如果不存在此聊天记录则创建一个新的
-
-        startChatActivity(context, chatUser);
-    }
 }

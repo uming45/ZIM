@@ -35,9 +35,6 @@
             android:name=".activity.MultiChatActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".activity.CreateMultiChatActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
             android:name=".activity.AddFriendActivity"
             android:configChanges=""
             android:screenOrientation="portrait"></activity>
