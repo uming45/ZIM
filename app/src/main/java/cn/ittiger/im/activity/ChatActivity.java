@@ -326,7 +326,7 @@ public class ChatActivity extends BaseChatActivity {
             intent.addCategory(Intent.CATEGORY_OPENABLE);
 
         } else {
-            intent = new Intent(Intent.ACTION_PICK);
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
         }
 
@@ -365,9 +365,10 @@ public class ChatActivity extends BaseChatActivity {
             } else if (requestCode == REQUEST_CODE_GET_FILE) { // 文件选择成功
 
                 Uri dataUri = data.getData();
+                String path = FileUtil.getPath(this,dataUri);
                 if (dataUri != null) {
 
-                    File file = FileUtil.uri2File(this, dataUri);
+                    File file = new File(path);
                     // deal with null
                     if (file == null) {
                         UIUtil.showToast(this, "不支持您选择的文件管理器，\n请使用系统自带的文件管理器！");
