@@ -53,16 +53,16 @@
     <string name="recording_voice_text">手指上滑，取消发送</string>
     <string name="cancel_recording_voice_text">松开手指，取消发送</string>
 
-    <string name="nav_header_title">基于Smack实现的简单即时通讯App</string>
+    <string name="nav_header_title">基于Smack实现的即时通讯App</string>
     <string name="nav_share">分享应用</string>
     <string name="nav_about">关于</string>
 
-    <string name="share_app_title">分享TigerIM给朋友</string>
-    <string name="about_author">作者：老胡</string>
-    <string name="about_blog">博客：<a href="http://ittiger.cn">http://ittiger.cn</a></string>
-    <string name="about_contact">QQ群：106510493(点此复制)</string>
-    <string name="about_project">项目地址：\n<a href="https://github.com/huyongli/TigerIM">https://github.com/huyongli/TigerIM</a></string>
-    <string name="about_project_desc">项目简介：\nTigerIM是我基于Smack和Openfire实现的一个简易即时通讯App，包含了即时通讯中的主要应用场景。主要包括：\n1.用户登陆与注册\n2.添加好友\n3.单人点对点聊天\n4.多人群聊\n5.支持发送语音，图片，文本和文件\n6.好友搜索\n\n喜欢的朋友到github上star一下</string>
+    <string name="share_app_title">分享给朋友</string>
+    <string name="about_author">作者：XXX</string>
+    <string name="about_blog">博客：<a href="http://xxx">http://xxx</a></string>
+    <string name="about_contact">QQ群：123456789(点此复制)</string>
+    <string name="about_project">项目地址：\n<a href="https://xxx">https://xxx</a></string>
+    <string name="about_project_desc">项目简介：\nXXX</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
