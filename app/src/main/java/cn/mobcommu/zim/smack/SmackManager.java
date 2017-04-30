@@ -175,9 +175,7 @@ public class SmackManager {
             if (!isConnected()) {
                 throw new IllegalStateException("服务器断开，请先连接服务器");
             }
-//            SASLAuthentication.unBlacklistSASLMechanism("PLAIN");
-//            SASLAuthentication.blacklistSASLMechanism("SHA-1");
-//            SASLAuthentication.blacklistSASLMechanism("DIGEST-MD5");
+
             mConnection.login(username, password);
 
             User user = new User(username, password);
@@ -193,6 +191,10 @@ public class SmackManager {
         }
     }
 
+    /**
+     * 获取连接
+     * @return
+     */
     public XMPPTCPConnection getConnection() {
 
         if (!isConnected() || mConnection == null) {
@@ -331,21 +333,6 @@ public class SmackManager {
                     mConnection.sendStanza(presence);
                     break;
                 case 4://设置隐身
-                    //                Roster roster = connection.getRoster();
-                    //                Collection<RosterEntry> entries = roster.getEntries();
-                    //                for (RosterEntry entry : entries) {
-                    //                    presence = new Presence(Presence.Type.unavailable);
-                    //                    presence.setStanzaId(Stanza.ID_NOT_AVAILABLE);
-                    //                    presence.setFrom(connection.getUser());
-                    //                    presence.setTo(entry.getUser());
-                    //                    connection.sendStanza(presence);
-                    //                }
-                    //                // 向同一用户的其他客户端发送隐身状态
-                    //                presence = new Presence(Presence.Type.unavailable);
-                    //                presence.setStanzaId(Packet.ID_NOT_AVAILABLE);
-                    //                presence.setFrom(connection.getUser());
-                    //                presence.setTo(StringUtils.parseBareAddress(connection.getUser()));
-                    //                connection.sendStanza(presence);
                     break;
                 case 5://设置离线
                     presence = new Presence(Presence.Type.unavailable);
@@ -577,130 +564,6 @@ public class SmackManager {
             return;
         }
         throw new NullPointerException("服务器连接失败，请先连接服务器");
-    }
-
-    /**
-     * 创建群聊聊天室
-     *
-     * @param roomName 聊天室名字
-     * @param nickName 创建者在聊天室中的昵称
-     * @param password 聊天室密码
-     * @return
-     */
-    public MultiUserChat createChatRoom(String roomName, String nickName, String password) throws Exception {
-
-        if (!isConnected()) {
-            throw new NullPointerException("服务器连接失败，请先连接服务器");
-        }
-        MultiUserChat muc = getMultiChat(getMultiChatJid(roomName));
-        // 创建聊天室
-        boolean isCreated = muc.createOrJoin(nickName);
-        if (isCreated) {
-            // 获得聊天室的配置表单
-            Form form = muc.getConfigurationForm();
-            // 根据原始表单创建一个要提交的新表单。
-            Form submitForm = form.createAnswerForm();
-            // 向要提交的表单添加默认答复
-            List<FormField> fields = form.getFields();
-            for (int i = 0; fields != null && i < fields.size(); i++) {
-                if (FormField.Type.hidden != fields.get(i).getType() && fields.get(i).getVariable() != null) {
-                    // 设置默认值作为答复
-                    submitForm.setDefaultAnswer(fields.get(i).getVariable());
-                }
-            }
-            // 设置聊天室的新拥有者
-            List<String> owners = new ArrayList<String>();
-            owners.add(mConnection.getUser());// 用户JID
-            submitForm.setAnswer("muc#roomconfig_roomowners", owners);
-            // 设置聊天室是持久聊天室，即将要被保存下来
-            submitForm.setAnswer("muc#roomconfig_persistentroom", true);
-            // 房间仅对成员开放
-            submitForm.setAnswer("muc#roomconfig_membersonly", false);
-            // 允许占有者邀请其他人
-            submitForm.setAnswer("muc#roomconfig_allowinvites", true);
-            if (password != null && password.length() != 0) {
-                // 进入是否需要密码
-                submitForm.setAnswer("muc#roomconfig_passwordprotectedroom", true);
-                // 设置进入密码
-                submitForm.setAnswer("muc#roomconfig_roomsecret", password);
-            }
-            //不限制房间成员数
-            List<String> list = new ArrayList<String>();
-            list.add("0");
-            submitForm.setAnswer("muc#roomconfig_maxusers", list);
-            // 登录房间对话
-            submitForm.setAnswer("muc#roomconfig_enablelogging", true);
-            // 仅允许注册的昵称登录
-            submitForm.setAnswer("x-muc#roomconfig_reservednick", true);
-            // 允许使用者修改昵称
-            submitForm.setAnswer("x-muc#roomconfig_canchangenick", false);
-            // 允许用户注册房间
-            submitForm.setAnswer("x-muc#roomconfig_registration", false);
-            // 发送已完成的表单（有默认值）到服务器来配置聊天室
-            muc.sendConfigurationForm(submitForm);
-        }
-        return muc;
-    }
-
-    /**
-     * 加入一个群聊聊天室
-     *
-     * @param roomName 聊天室名字
-     * @param nickName 用户在聊天室中的昵称
-     * @param password 聊天室密码
-     * @return
-     */
-    public MultiUserChat joinChatRoom(String roomName, String nickName, String password) {
-
-        if (!isConnected()) {
-            throw new NullPointerException("服务器连接失败，请先连接服务器");
-        }
-        try {
-            // 使用XMPPConnection创建一个MultiUserChat窗口  
-            MultiUserChat muc = getMultiChat(getMultiChatJid(roomName));
-            // 聊天室服务将会决定要接受的历史记录数量  
-            DiscussionHistory history = new DiscussionHistory();
-            history.setMaxChars(0);
-            // history.setSince(new Date());  
-            // 用户加入聊天室  
-            muc.join(nickName, password);
-            return muc;
-        } catch (XMPPException | SmackException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private String getMultiChatJid(String roomName) {
-
-        return roomName + Constant.MULTI_CHAT_ADDRESS_SPLIT + mConnection.getServiceName();
-    }
-
-    public MultiUserChat getMultiChat(String roomJid) {
-
-        return getMultiUserChatManager().getMultiUserChat(roomJid);
-    }
-
-    public MultiUserChatManager getMultiUserChatManager() {
-
-        if (!isConnected()) {
-            throw new NullPointerException("服务器连接失败，请先连接服务器");
-        }
-        return MultiUserChatManager.getInstanceFor(mConnection);
-    }
-
-    /**
-     * 获取服务器上的所有群聊房间
-     *
-     * @return
-     * @throws Exception
-     */
-    public List<HostedRoom> getHostedRooms() throws Exception {
-
-        if (!isConnected()) {
-            throw new NullPointerException("服务器连接失败，请先连接服务器");
-        }
-        return getMultiUserChatManager().getHostedRooms(mConnection.getServiceName());
     }
 
     public ServiceDiscoveryManager getServiceDiscoveryManager() {
