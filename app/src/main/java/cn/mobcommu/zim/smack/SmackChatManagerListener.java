@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * Smack普通消息监听处理
  */
 public class SmackChatManagerListener implements ChatManagerListener {
-    private static final String PATTERN = "[a-zA-Z0-9_]+@";
+    private static final String PATTERN = "[a-zA-Z0-9_-]+@";
     private String mMeNickName = LoginHelper.getUser().getNickname();
 
     @Override
