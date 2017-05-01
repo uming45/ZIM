@@ -89,17 +89,20 @@ public class ContactFragment extends BaseFragment {
         })
         .subscribeOn(Schedulers.io())//指定上面的Subscriber线程
         .observeOn(AndroidSchedulers.mainThread())//指定下面的回调线程
-        .doOnError(new Action1<Throwable>() {
+        .subscribe(new Subscriber<List<ContactEntity>>() {
             @Override
-            public void call(Throwable throwable) {
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
                 refreshFailed();
                 Logger.e(throwable, "query contact list failure");
             }
-        })
-        .subscribe(new Action1<List<ContactEntity>>() {
+
             @Override
-            public void call(List<ContactEntity> contacts) {
+            public void onNext(List<ContactEntity> contacts) {
                 if(mAdapter == null) {
                     mAdapter = new ContactAdapter(mContext, contacts);
                     mAdapter.setOnItemClickListener(mContactItemClickListener);
