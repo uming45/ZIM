@@ -7,7 +7,6 @@ import cn.mobcommu.zim.constant.Constant;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,13 +32,7 @@ import org.jivesoftware.smackx.filetransfer.FileTransferListener;
 import org.jivesoftware.smackx.filetransfer.FileTransferManager;
 import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
 import org.jivesoftware.smackx.iqregister.AccountManager;
-import org.jivesoftware.smackx.muc.DiscussionHistory;
-import org.jivesoftware.smackx.muc.HostedRoom;
-import org.jivesoftware.smackx.muc.MultiUserChat;
-import org.jivesoftware.smackx.muc.MultiUserChatManager;
 import org.jivesoftware.smackx.offline.OfflineMessageManager;
-import org.jivesoftware.smackx.xdata.Form;
-import org.jivesoftware.smackx.xdata.FormField;
 
 public class SmackManager {
     private static final String TAG = "SmackManager";
@@ -444,6 +437,16 @@ public class SmackManager {
 
         if (isConnected()) {
             return Roster.getInstanceFor(mConnection).getEntries();
+        }
+        throw new NullPointerException("服务器连接失败，请先连接服务器");
+    }
+
+    /**
+     * 当前用户的某个好友的状态
+     */
+    public Presence getFriendPresence(String user) {  // not work now
+        if (isConnected()) {
+            return Roster.getInstanceFor(mConnection).getPresence(user + "@" + Constant.SERVER_NAME);
         }
         throw new NullPointerException("服务器连接失败，请先连接服务器");
     }

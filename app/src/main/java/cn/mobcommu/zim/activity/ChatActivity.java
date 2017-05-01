@@ -26,6 +26,7 @@ import android.provider.MediaStore;
 import cn.mobcommu.zim.R;
 import cn.mobcommu.zim.activity.base.BaseChatActivity;
 import cn.mobcommu.zim.bean.ChatMessage;
+import cn.mobcommu.zim.constant.Constant;
 import cn.mobcommu.zim.constant.FileLoadState;
 import cn.mobcommu.zim.constant.KeyBoardMoreFunType;
 import cn.mobcommu.zim.constant.MessageType;
@@ -33,6 +34,7 @@ import cn.mobcommu.zim.smack.SmackManager;
 import cn.mobcommu.zim.util.AppFileHelper;
 import cn.mobcommu.zim.util.DBHelper;
 import cn.mobcommu.zim.util.Filter;
+import cn.mobcommu.zim.util.PresenceUtil;
 import cn.mobcommu.zim.util.ReceiveFileListenerUtil;
 import cn.mobcommu.util.BitmapUtil;
 import cn.mobcommu.util.DateUtil;
@@ -264,19 +266,56 @@ public class ChatActivity extends BaseChatActivity {
      * @param funType 功能类型
      */
     @Override
-    public void functionClick(KeyBoardMoreFunType funType) {
+    public void functionClick(final KeyBoardMoreFunType funType) {
 
-        switch (funType) {
-            case FUN_TYPE_IMAGE://选择图片
-                selectImage();
-                break;
-            case FUN_TYPE_TAKE_PHOTO://拍照
-                takePhoto();
-                break;
-            case FUN_TYPE_FILE://选择文件
-                selectFile();
-                break;
-        }
+        String friendUsername = mChatUser.getFriendUsername();
+        final String strUrl = "http://" + Constant.SERVER_IP +
+                ":9090/plugins/presence/status?jid=" +
+                friendUsername + "@" + Constant.SERVER_NAME + "&type=xml";
+
+        Observable.create(new Observable.OnSubscribe<Integer>() {
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                int tmp_state = PresenceUtil.IsUserOnLine(strUrl);
+                subscriber.onNext(new Integer(tmp_state));
+                subscriber.onCompleted();
+            }
+        })
+        .subscribeOn(Schedulers.io()) //指定上面的Subscriber线程
+        .observeOn(AndroidSchedulers.mainThread()) //指定下面的回调线程
+        .subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer state) {
+                Logger.d("wangdsh state: " + state, "ddd");
+
+                if (state != 1) {
+                    UIUtil.showToast(ChatActivity.this, "好友不在线，无法发送图片和文件！");
+                } else {
+                    switch (funType) {
+                        case FUN_TYPE_IMAGE://选择图片
+                            selectImage();
+                            break;
+                        case FUN_TYPE_TAKE_PHOTO://拍照
+                            takePhoto();
+                            break;
+                        case FUN_TYPE_FILE://选择文件
+                            selectFile();
+                            break;
+                    }
+                }
+            }
+        });
+
     }
 
     /**
