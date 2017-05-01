@@ -15,6 +15,8 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UnCaughtCrashExceptionHandler implements UncaughtExceptionHandler {
     public static final String TAG = "CrashHandler";
@@ -136,6 +138,7 @@ public class UnCaughtCrashExceptionHandler implements UncaughtExceptionHandler {
 
                 Looper.prepare();
                 Toast.makeText(mContext, "应用异常:" + msg, Toast.LENGTH_LONG).show();
+                Logger.getAnonymousLogger().log(Level.WARNING, "wangdsh:" + msg);
                 Looper.loop();
             }
         }.start();

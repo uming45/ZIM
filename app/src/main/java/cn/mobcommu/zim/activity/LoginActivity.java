@@ -73,7 +73,6 @@ public class LoginActivity extends IMBaseActivity {
         Intent intent = getIntent();
         user1 = intent.getStringExtra("user1");
         friend_name = intent.getStringExtra("user2");
-        Logger.d("wangdsh " + friend_name, "wangdsh");
 
         initViews();
         initUserInfo();

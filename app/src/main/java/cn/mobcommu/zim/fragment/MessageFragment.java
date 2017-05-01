@@ -55,7 +55,6 @@ public class MessageFragment extends BaseFragment implements CommonRecyclerView.
         offlineMessagesList = SmackManager.getInstance().getOfflineMessagesList();
         try {
             for (Message message : offlineMessagesList) {
-                Logger.d("wangdsh message xml: " + message.toXML(), "wangdsh");
 
                 JSONObject json = new JSONObject(message.getBody());
                 ChatMessage chatMessage = new ChatMessage(MessageType.MESSAGE_TYPE_TEXT.value(), false);

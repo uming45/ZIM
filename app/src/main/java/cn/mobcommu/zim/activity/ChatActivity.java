@@ -54,10 +54,26 @@ import com.orhanobut.logger.Logger;
  * 单聊窗口
  */
 public class ChatActivity extends BaseChatActivity {
+
     /**
      * 聊天窗口对象
      */
     private Chat mChat;
+
+    /**
+     * 选择图片
+     */
+    private static final int REQUEST_CODE_GET_IMAGE = 1;
+
+    /**
+     * 拍照
+     */
+    private static final int REQUEST_CODE_TAKE_PHOTO = 2;
+
+    /**
+     * 选择文件
+     */
+    private static final int REQUEST_CODE_GET_FILE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,39 +217,37 @@ public class ChatActivity extends BaseChatActivity {
                 subscriber.onCompleted();
             }
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(Schedulers.io())
-                .map(new Func1<ChatMessage, ChatMessage>() {
-                    @Override
-                    public ChatMessage call(ChatMessage chatMessage) {
+        .subscribeOn(AndroidSchedulers.mainThread())
+        .observeOn(Schedulers.io())
+        .map(new Func1<ChatMessage, ChatMessage>() {
+            @Override
+            public ChatMessage call(ChatMessage chatMessage) {
 
-                        while (!transfer.isDone()) {//判断传输是否完成
-                            try {
-                                Thread.sleep(200);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        return chatMessage;
+                while (!transfer.isDone()) {//判断传输是否完成
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ChatMessage>() {
-                    @Override
-                    public void call(ChatMessage chatMessage) {
+                }
+                return chatMessage;
+            }
+        })
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Action1<ChatMessage>() {
+            @Override
+            public void call(ChatMessage chatMessage) {
 
-                        if (FileTransfer.Status.complete.toString().equals(transfer.getStatus().toString())) { //传输完成
-                            chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_SUCCESS.value());
-                        } else {
-                            chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_ERROR.value());
-                        }
+                if (FileTransfer.Status.complete.toString().equals(transfer.getStatus().toString())) { //传输完成
+                    chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_SUCCESS.value());
+                } else {
+                    chatMessage.setFileLoadState(FileLoadState.STATE_LOAD_ERROR.value());
+                }
 
-                        DBHelper.getInstance().getSQLiteDB().save(chatMessage); // 将加载状态写入数据库 0 -> 1 or 2
-                        Logger.d("wangdsh checkTransferStatus1: " + mAdapter.toString(), "wangdsh");
-                        mAdapter.update(chatMessage);
-                        Logger.d("wangdsh checkTransferStatus1: " + mAdapter.getItemCount(), "wangdsh");
-                    }
-                });
+                DBHelper.getInstance().getSQLiteDB().save(chatMessage); // 将加载状态写入数据库 0 -> 1 or 2
+                mAdapter.update(chatMessage);
+            }
+        });
     }
 
     /**
@@ -242,33 +256,9 @@ public class ChatActivity extends BaseChatActivity {
      * @param audioFile
      */
     @Override
-    public void sendVoice(File audioFile) {
+    public void sendVoice(final File audioFile) {
 
-        sendFile(audioFile, MessageType.MESSAGE_TYPE_VOICE.value());
-    }
-
-    /**
-     * 选择图片
-     */
-    private static final int REQUEST_CODE_GET_IMAGE = 1;
-    /**
-     * 拍照
-     */
-    private static final int REQUEST_CODE_TAKE_PHOTO = 2;
-
-    /**
-     * 选择文件
-     */
-    private static final int REQUEST_CODE_GET_FILE = 3;
-
-    /**
-     * 多种功能的点击处理
-     * @param funType 功能类型
-     */
-    @Override
-    public void functionClick(final KeyBoardMoreFunType funType) {
-
-        String friendUsername = mChatUser.getFriendUsername();
+        String friendUsername = mChatUser.getFriendUsername(); // 好友用户名
         final String strUrl = "http://" + Constant.SERVER_IP +
                 ":9090/plugins/presence/status?jid=" +
                 friendUsername + "@" + Constant.SERVER_NAME + "&type=xml";
@@ -276,6 +266,7 @@ public class ChatActivity extends BaseChatActivity {
         Observable.create(new Observable.OnSubscribe<Integer>() {
             @Override
             public void call(Subscriber<? super Integer> subscriber) {
+                // 0 - 用户不存在; 1 - 用户在线; 2 - 用户离线
                 int tmp_state = PresenceUtil.IsUserOnLine(strUrl);
                 subscriber.onNext(new Integer(tmp_state));
                 subscriber.onCompleted();
@@ -296,10 +287,55 @@ public class ChatActivity extends BaseChatActivity {
 
             @Override
             public void onNext(Integer state) {
-                Logger.d("wangdsh state: " + state, "ddd");
 
                 if (state != 1) {
-                    UIUtil.showToast(ChatActivity.this, "好友不在线，无法发送图片和文件！");
+                    UIUtil.showToast(ChatActivity.this, "好友离线，无法发送语音！");
+                } else { // 好友在线
+                    sendFile(audioFile, MessageType.MESSAGE_TYPE_VOICE.value());
+                }
+            }
+        });
+    }
+
+    /**
+     * 多种功能的点击处理
+     * @param funType 功能类型
+     */
+    @Override
+    public void functionClick(final KeyBoardMoreFunType funType) {
+
+        String friendUsername = mChatUser.getFriendUsername();
+        final String strUrl = "http://" + Constant.SERVER_IP +
+                ":9090/plugins/presence/status?jid=" +
+                friendUsername + "@" + Constant.SERVER_NAME + "&type=xml";
+
+        Observable.create(new Observable.OnSubscribe<Integer>() {
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                // 0 - 用户不存在; 1 - 用户在线; 2 - 用户离线
+                int tmp_state = PresenceUtil.IsUserOnLine(strUrl);
+                subscriber.onNext(new Integer(tmp_state));
+                subscriber.onCompleted();
+            }
+        })
+        .subscribeOn(Schedulers.io()) //指定上面的Subscriber线程
+        .observeOn(AndroidSchedulers.mainThread()) //指定下面的回调线程
+        .subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer state) {
+
+                if (state != 1) {
+                    UIUtil.showToast(ChatActivity.this, "好友离线，无法发送图片和文件！");
                 } else {
                     switch (funType) {
                         case FUN_TYPE_IMAGE://选择图片

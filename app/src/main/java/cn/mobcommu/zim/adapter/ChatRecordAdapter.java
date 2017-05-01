@@ -49,7 +49,6 @@ public class ChatRecordAdapter extends HeaderAndFooterAdapter<ChatRecord> {
         if(!ValueUtil.isEmpty(item.getFriendAvatar())) {
             ImageLoaderHelper.displayImage(viewHolder.avatar, item.getFriendAvatar());
         }
-        Logger.d("wangdsh item.getFriendNickname() " + item.getFriendNickname(), "wangdsh");
         viewHolder.nickName.setText(item.getFriendNickname());
         if(!ValueUtil.isEmpty(item.getLastMessage())) {
             if(viewHolder.message.getVisibility() == View.GONE) {

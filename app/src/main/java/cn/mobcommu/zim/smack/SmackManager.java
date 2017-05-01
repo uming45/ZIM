@@ -130,8 +130,6 @@ public class SmackManager {
         OfflineMessageManager offlineMessageManager = new OfflineMessageManager(getConnection());
 
         try {
-            // 离线消息数量
-            Logger.d("wangdsh offline message count: " + offlineMessageManager.getMessageCount(), "wangdsh");
             offlineMessagesList = offlineMessageManager.getMessages();
 
             // 删除离线消息

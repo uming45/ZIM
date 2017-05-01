@@ -216,7 +216,7 @@ public class ChatKeyboard extends BaseKeyboardLayout implements
 
             getRecordingVoiceView().showCancelRecordingView();
         }
-    };
+    }
 
     public void setKeyboardOperateListener(KeyboardOperateListener keyboardOperateListener) {
 
