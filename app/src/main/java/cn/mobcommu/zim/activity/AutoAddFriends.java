@@ -51,6 +51,7 @@ public class AutoAddFriends extends AppCompatActivity {
             intent.putExtra("user1", user1);
             intent.putExtra("user2", user2);
             startActivity(intent); // 跳转到登录界面
+            ActivityUtil.finishActivity(AutoAddFriends.this);
 
         } else { // 登录过，且参数中用户名与登录过的用户的用户名一致，则自动登录，调转到主页面
             final String password = user.getPassword();
@@ -76,7 +77,10 @@ public class AutoAddFriends extends AppCompatActivity {
                         public void call(LoginResult loginResult) {
 
                             if (loginResult.isSuccess()) {
-                                addFriend(user2, user2);
+                                // 为user1添加好友user2(防止用户登录其他账户)
+                                if (loginResult.getUser().getUsername().equals(user1)) {
+                                    addFriend(user2, user2);
+                                }
 
                                 ActivityUtil.skipActivity(AutoAddFriends.this, MainActivity.class);
                             } else {

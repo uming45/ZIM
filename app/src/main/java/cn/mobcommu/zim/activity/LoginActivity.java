@@ -60,6 +60,7 @@ public class LoginActivity extends IMBaseActivity {
     @BindView(R.id.cb_remember_password)
     AppCompatCheckBox mCbRememberPassword;
 
+    private String user1;
     private String friend_name;
 
     @Override
@@ -70,6 +71,7 @@ public class LoginActivity extends IMBaseActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
+        user1 = intent.getStringExtra("user1");
         friend_name = intent.getStringExtra("user2");
         Logger.d("wangdsh " + friend_name, "wangdsh");
 
@@ -158,7 +160,8 @@ public class LoginActivity extends IMBaseActivity {
                             LoginHelper.saveUser(loginResult.getUser());
                         }
 
-                        if (friend_name != null) {
+                        // 必须是user1登录才可以添加好友
+                        if (friend_name != null && loginResult.getUser().getUsername().equals(user1)) {
                             addFriend(friend_name, friend_name);
                         }
 
