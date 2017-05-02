@@ -2,6 +2,7 @@ package cn.mobcommu.zim.adapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.mobcommu.util.UIUtil;
 import cn.mobcommu.zim.R;
 import cn.mobcommu.zim.activity.EnlargeImage;
 import cn.mobcommu.zim.bean.ChatMessage;
@@ -10,6 +11,7 @@ import cn.mobcommu.zim.constant.FileLoadState;
 import cn.mobcommu.zim.constant.MessageType;
 import cn.mobcommu.zim.ui.recyclerview.HeaderAndFooterAdapter;
 import cn.mobcommu.zim.ui.recyclerview.ViewHolder;
+import cn.mobcommu.zim.util.AppFileHelper;
 import cn.mobcommu.zim.util.ChatTimeUtil;
 import cn.mobcommu.zim.util.EmotionUtil;
 import cn.mobcommu.zim.util.ImageLoaderHelper;
@@ -137,7 +139,7 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
             }
 
             TextView file_name_tv = (TextView)viewHolder.chatContentFile.findViewById(R.id.file_message_tv_filename);
-            if(fileName.length()>15){
+            if(fileName.length() > 15){
                 fileName = fileName.substring(0,6) + "..." + fileName.substring(fileName.length()-6,fileName.length());
             }
             file_name_tv.setText(fileName.trim());
@@ -151,10 +153,14 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.setAction(Intent.ACTION_VIEW);
 
-                    String type = getMimeType(filePath); // 获取文件类型
+                    // String type = getMimeType(filePath); // 获取文件类型
+                    String type = AppFileHelper.getMIMEType(file);
                     intent.setDataAndType(Uri.fromFile(file), type);
-                    mbasesContext.startActivity(intent);
-
+                    try {
+                        mbasesContext.startActivity(intent);
+                    }catch (Exception e){
+                        UIUtil.showToast(mContext, "无打开此文件的应用");
+                    }
                 }
             });
 
