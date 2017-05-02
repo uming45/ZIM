@@ -373,6 +373,9 @@ public class ChatActivity extends BaseChatActivity {
 
     }
 
+    /**
+     * 拍照--照片路径
+     */
     private String mPicPath = "";
 
     /**

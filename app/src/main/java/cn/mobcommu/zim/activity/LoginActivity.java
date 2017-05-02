@@ -60,6 +60,9 @@ public class LoginActivity extends IMBaseActivity {
     @BindView(R.id.cb_remember_password)
     AppCompatCheckBox mCbRememberPassword;
 
+    /**
+     * 接口--添加好友--参数
+     */
     private String user1;
     private String friend_name;
 
@@ -79,6 +82,9 @@ public class LoginActivity extends IMBaseActivity {
     }
 
 
+    /**
+     * 初始化视图
+     */
     private void initViews() {
 
         mEditTextUser.addTextChangedListener(new TextWatcher() {
@@ -100,6 +106,9 @@ public class LoginActivity extends IMBaseActivity {
         });
     }
 
+    /**
+     * 初始化用户信息
+     */
     private void initUserInfo() {
 
         boolean isRemember = LoginHelper.isRememberPassword();
@@ -174,6 +183,11 @@ public class LoginActivity extends IMBaseActivity {
             });
     }
 
+    /**
+     * 添加好友
+     * @param username
+     * @param nickname
+     */
     protected void addFriend(final String username, final String nickname) {
         Observable.create(new Observable.OnSubscribe<RosterEntry>() {
             @Override

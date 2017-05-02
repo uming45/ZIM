@@ -52,6 +52,10 @@ public class AccountMngActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 修改状态
+     * @param code
+     */
     public void changeState(int code) {
         if(SmackManager.getInstance().updateUserState(code)) {
             UIUtil.showToast(this, "修改状态成功");
@@ -60,6 +64,9 @@ public class AccountMngActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 断开连接
+     */
     public void disconnect() {
         if(SmackManager.getInstance().disconnect()) {
             ActivityUtil.finishActivity(this);

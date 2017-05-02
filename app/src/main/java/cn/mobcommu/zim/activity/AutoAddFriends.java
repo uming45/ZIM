@@ -24,7 +24,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * 自动添加好友
+ * (接口)自动添加好友
  */
 
 public class AutoAddFriends extends AppCompatActivity {
@@ -92,6 +92,11 @@ public class AutoAddFriends extends AppCompatActivity {
 
     }
 
+    /**
+     * 添加好友
+     * @param username
+     * @param nickname
+     */
     protected void addFriend(final String username, final String nickname) {
         Observable.create(new Observable.OnSubscribe<RosterEntry>() {
             @Override
