@@ -51,30 +51,7 @@ public class MessageFragment extends BaseFragment implements CommonRecyclerView.
     private List<Message> offlineMessagesList;
 
     public MessageFragment() {
-        // 处理离线消息,需要异步处理
-        offlineMessagesList = SmackManager.getInstance().getOfflineMessagesList();
-        try {
-            for (Message message : offlineMessagesList) {
 
-                JSONObject json = new JSONObject(message.getBody());
-                ChatMessage chatMessage = new ChatMessage(MessageType.MESSAGE_TYPE_TEXT.value(), false);
-
-                chatMessage.setFriendUsername(getProperUsername(message.getFrom()));
-                chatMessage.setFriendNickname(json.optString(ChatMessage.KEY_FROM_NICKNAME));
-                chatMessage.setMeUsername(getProperUsername(message.getTo()));
-                chatMessage.setMeNickname(LoginHelper.getUser().getNickname());
-                chatMessage.setContent(json.optString(ChatMessage.KEY_MESSAGE_CONTENT));
-                chatMessage.setMulti(false);
-
-                DBHelper.getInstance().getSQLiteDB().save(chatMessage); // 保存消息到数据库
-                EventBus.getDefault().post(chatMessage);
-
-                reRefreshData(chatMessage);
-
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public String getProperUsername(String inputName) { // 613@derc5/Smack -> 613
@@ -91,6 +68,31 @@ public class MessageFragment extends BaseFragment implements CommonRecyclerView.
         mRecyclerView.addItemDecoration(new CommonItemDecoration());
         mRecyclerView.setOnItemClickListener(this);
         return view;
+    }
+
+    /**
+     * 处理离线消息
+     */
+    public void dealOfflineMessage() {
+        offlineMessagesList = SmackManager.getInstance().getOfflineMessagesList();
+        try {
+            for (Message message : offlineMessagesList) {
+                JSONObject json = new JSONObject(message.getBody());
+                ChatMessage chatMessage = new ChatMessage(MessageType.MESSAGE_TYPE_TEXT.value(), false);
+
+                chatMessage.setFriendUsername(getProperUsername(message.getFrom()));
+                chatMessage.setFriendNickname(json.optString(ChatMessage.KEY_FROM_NICKNAME));
+                chatMessage.setMeUsername(getProperUsername(message.getTo()));
+                chatMessage.setMeNickname(LoginHelper.getUser().getNickname());
+                chatMessage.setContent(json.optString(ChatMessage.KEY_MESSAGE_CONTENT));
+                chatMessage.setMulti(false);
+
+                DBHelper.getInstance().getSQLiteDB().save(chatMessage); // 保存消息到数据库
+                EventBus.getDefault().post(chatMessage);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -120,45 +122,8 @@ public class MessageFragment extends BaseFragment implements CommonRecyclerView.
             public void call(List<ChatRecord> chatRecords) {
 
                 mAdapter = new ChatRecordAdapter(mContext, chatRecords);
+                dealOfflineMessage(); // 处理离线消息
                 mRecyclerView.setAdapter(mAdapter);
-                refreshSuccess();
-            }
-        });
-    }
-
-    /**
-     * 处理每一条离线消息
-     * @param chatMessage
-     */
-    public void reRefreshData(final ChatMessage chatMessage) {
-
-        Observable.create(new Observable.OnSubscribe<List<ChatRecord>>() {
-            @Override
-            public void call(Subscriber<? super List<ChatRecord>> subscriber) {
-
-                List<ChatRecord> list = DBQueryHelper.queryChatRecord();
-                subscriber.onNext(list);
-                subscriber.onCompleted();
-            }
-        })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .doOnError(new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-
-                refreshFailed();
-                Logger.e(throwable, "get chat record failure");
-            }
-        })
-        .subscribe(new Action1<List<ChatRecord>>() {
-            @Override
-            public void call(List<ChatRecord> chatRecords) {
-
-                mAdapter = new ChatRecordAdapter(mContext, chatRecords);
-                onReceiveChatMessageEvent(chatMessage); // 处理消息
-                mRecyclerView.setAdapter(mAdapter);
-                refreshData();
                 refreshSuccess();
             }
         });
