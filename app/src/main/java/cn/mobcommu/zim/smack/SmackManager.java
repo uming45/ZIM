@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jivesoftware.smack.ReconnectionManager;
+import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.SmackException.NoResponseException;
@@ -166,6 +167,8 @@ public class SmackManager {
             if (!isConnected()) {
                 throw new IllegalStateException("服务器断开，请先连接服务器");
             }
+
+            SASLAuthentication.blacklistSASLMechanism("SHA-1");
 
             mConnection.login(username, password);
 
