@@ -309,6 +309,18 @@ public class ChatActivity extends BaseChatActivity {
                 ":9090/plugins/presence/status?jid=" +
                 friendUsername + "@" + Constant.SERVER_NAME + "&type=xml";
 
+        if (funType == KeyBoardMoreFunType.FUN_TYPE_PRESCRIPTION) {
+
+            Uri data = Uri.parse("xunyaowenyi://online_prescription/?doctor_name=" + mChatUser.getMeUsername() + "&patient_name=" + mChatUser.getFriendUsername());
+            Intent intent = new Intent(Intent.ACTION_VIEW,data);
+
+            //保证新启动的APP有单独的堆栈，如果希望新启动的APP和原有APP使用同一个堆栈则去掉该项
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+            return;
+        }
+
         Observable.create(new Observable.OnSubscribe<Integer>() {
             @Override
             public void call(Subscriber<? super Integer> subscriber) {
