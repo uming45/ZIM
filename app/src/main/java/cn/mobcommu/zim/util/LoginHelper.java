@@ -1,5 +1,6 @@
 package cn.mobcommu.zim.util;
 
+import cn.mobcommu.zim.bean.LoginResult;
 import cn.mobcommu.zim.bean.User;
 import cn.mobcommu.util.PreferenceHelper;
 
@@ -7,6 +8,7 @@ public class LoginHelper {
 
     private static final String KEY_REMEMBER_PASSWORD = "pre_key_remember_password";
     private static final String KEY_USER = "pre_key_user";
+    private static LoginResult loginResult;
 
     /**
      * 是否记住密码
@@ -35,5 +37,13 @@ public class LoginHelper {
     public static void saveUser(User user) {
 
         PreferenceHelper.put(KEY_USER, user);
+    }
+
+    public static LoginResult getLoginResult() {
+        return loginResult;
+    }
+
+    public static void setLoginResult(LoginResult lr) {
+        loginResult = lr;
     }
 }

@@ -3,6 +3,7 @@ package cn.mobcommu.zim.smack;
 import cn.mobcommu.zim.bean.LoginResult;
 import cn.mobcommu.zim.bean.User;
 import cn.mobcommu.zim.constant.Constant;
+import cn.mobcommu.zim.util.LoginHelper;
 
 import com.orhanobut.logger.Logger;
 
@@ -163,6 +164,15 @@ public class SmackManager {
     public LoginResult login(String username, String password) {
 
         try {
+
+            LoginResult loginResult = LoginHelper.getLoginResult();
+            if (loginResult != null && loginResult.isSuccess()) {
+                if (!isConnected()) {
+                    throw new IllegalStateException("服务器断开，请先连接服务器");
+                }
+                return loginResult;
+            }
+
             disconnect(); // 先断开连接
             if (!isConnected()) {
                 throw new IllegalStateException("服务器断开，请先连接服务器");
@@ -178,7 +188,10 @@ public class SmackManager {
             // TEST
             getOfflineMessage(); // 获取离线消息
 
-            return new LoginResult(user, true);
+            LoginResult lr = new LoginResult(user, true);
+            LoginHelper.setLoginResult(lr);
+
+            return lr;
         } catch (Exception e) {
             Logger.e(TAG, e, "login failure");
             return new LoginResult(false, e.getMessage());
