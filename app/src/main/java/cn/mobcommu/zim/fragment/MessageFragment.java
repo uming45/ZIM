@@ -15,6 +15,7 @@ import cn.mobcommu.zim.util.DBHelper;
 import cn.mobcommu.zim.util.DBQueryHelper;
 import cn.mobcommu.zim.util.IMUtil;
 import cn.mobcommu.zim.util.LoginHelper;
+import cn.mobcommu.zim.util.NotificationHelper;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -165,6 +166,11 @@ public class MessageFragment extends BaseFragment implements CommonRecyclerView.
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveChatMessageEvent(ChatMessage message) {
+
+        if (message.isMeSend() == false) {
+            new NotificationHelper().playNotificationSound(mContext);
+        }
+
         //收到发送的消息时接收到的事件(包括别人发送的和自己发送的消息)
         if(isRemoving() || mAdapter == null) {
             return;
