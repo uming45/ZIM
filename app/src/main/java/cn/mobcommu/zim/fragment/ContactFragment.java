@@ -107,7 +107,7 @@ public class ContactFragment extends BaseFragment {
                     mAdapter = new ContactAdapter(mContext, contacts);
                     mAdapter.setOnItemClickListener(mContactItemClickListener);
                     mIndexStickyView.setAdapter(mAdapter);
-                    mIndexStickyView.addIndexHeaderAdapter(getHeaderMenuAdapter());
+//                    mIndexStickyView.addIndexHeaderAdapter(getHeaderMenuAdapter());
                 } else {
                     mAdapter.reset(contacts);
                 }
