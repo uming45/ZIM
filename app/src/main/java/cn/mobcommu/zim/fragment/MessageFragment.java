@@ -168,7 +168,7 @@ public class MessageFragment extends BaseFragment implements CommonRecyclerView.
     public void onReceiveChatMessageEvent(ChatMessage message) {
 
         if (message.isMeSend() == false) {
-            new NotificationHelper().playNotificationSound(mContext);
+            new NotificationHelper().notifyUser(mContext);
         }
 
         //收到发送的消息时接收到的事件(包括别人发送的和自己发送的消息)

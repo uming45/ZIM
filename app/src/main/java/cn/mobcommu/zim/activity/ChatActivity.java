@@ -34,6 +34,7 @@ import cn.mobcommu.zim.smack.SmackManager;
 import cn.mobcommu.zim.util.AppFileHelper;
 import cn.mobcommu.zim.util.DBHelper;
 import cn.mobcommu.zim.util.Filter;
+import cn.mobcommu.zim.util.NotificationHelper;
 import cn.mobcommu.zim.util.PresenceUtil;
 import cn.mobcommu.zim.util.ReceiveFileListenerUtil;
 import cn.mobcommu.util.BitmapUtil;
@@ -162,6 +163,10 @@ public class ChatActivity extends BaseChatActivity {
                 String requestor = request.getRequestor(); // eg. 602@laboratory/Smack
 
                 if (mChatUser.getFriendUsername().equals(requestor.substring(0, requestor.lastIndexOf('@')))) {
+
+                    // 通知用户
+                    new NotificationHelper().notifyUser(getBaseContext());
+
                     // Accept it
                     IncomingFileTransfer transfer = request.accept();
 
