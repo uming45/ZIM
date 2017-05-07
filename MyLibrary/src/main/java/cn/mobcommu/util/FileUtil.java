@@ -145,7 +145,7 @@ public final class FileUtil {
     }
 
     /**
-     * 把uri转为File对象
+     * 把uri转为File对象(因不支持Android4.4以上版本，弃用)
      */
     public static File uri2File(Activity aty, Uri uri) {
         if (android.os.Build.VERSION.SDK_INT < 11) {

@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
+import cn.mobcommu.util.GetImageAbsolutePath;
 import cn.mobcommu.zim.R;
 import cn.mobcommu.zim.activity.base.BaseChatActivity;
 import cn.mobcommu.zim.bean.ChatMessage;
@@ -453,7 +454,8 @@ public class ChatActivity extends BaseChatActivity {
 
                 Uri dataUri = data.getData();
                 if (dataUri != null) {
-                    File file = FileUtil.uri2File(this, dataUri);
+                    // 根据Uri获取图片绝对路径，解决Android4.4以上版本Uri转换
+                    File file = new File(GetImageAbsolutePath.getImageAbsolutePath(this, dataUri));
                     sendFile(file, MessageType.MESSAGE_TYPE_IMAGE.value());
                 }
 
