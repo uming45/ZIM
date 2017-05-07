@@ -6,6 +6,7 @@
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="black">#000000</color><!--黑色 -->
+    <color name="red">#FF0000</color><!--红色 -->
     <color name="transparency">#00000000</color><!--透明 -->
     <color name="main_color">#18B5EA</color>
 

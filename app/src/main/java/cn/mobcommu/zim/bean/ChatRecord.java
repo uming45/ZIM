@@ -109,6 +109,10 @@ public class ChatRecord extends ChatUser {
         return mUnReadMessageCount;
     }
 
+    public void resetUnReadMessageCount() {
+        mUnReadMessageCount = 0;
+    }
+
     public void updateUnReadMessageCount() {
 
         mUnReadMessageCount += 1;

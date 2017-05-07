@@ -133,6 +133,14 @@ public class MessageFragment extends BaseFragment implements CommonRecyclerView.
     @Override
     public void onItemClick(HeaderAndFooterAdapter adapter, int position, View itemView) {
 
+        ChatRecord chatRecord = mAdapter.getItem(position);
+        // 未读消息数置0
+        chatRecord.resetUnReadMessageCount();
+
+        // 更新数据库
+        mAdapter.update(chatRecord);
+        DBHelper.getInstance().getSQLiteDB().update(chatRecord);//更新数据库中的记录
+
         IMUtil.startChatActivity(mContext, mAdapter.getItem(position));
     }
 
@@ -182,7 +190,9 @@ public class MessageFragment extends BaseFragment implements CommonRecyclerView.
         } else {
             chatRecord.setChatTime(message.getDatetime());
             chatRecord.setLastMessage(message.getContent());
-            chatRecord.updateUnReadMessageCount();
+            if (!message.isMeSend()) { // 接收到消息，未读数加一
+                chatRecord.updateUnReadMessageCount();
+            }
             mAdapter.update(chatRecord);
             DBHelper.getInstance().getSQLiteDB().update(chatRecord);//更新数据库中的记录
         }

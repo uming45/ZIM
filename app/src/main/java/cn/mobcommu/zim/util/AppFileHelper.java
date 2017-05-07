@@ -44,6 +44,8 @@ public class AppFileHelper {
             child = "recv_image";
         } else if(type == MessageType.MESSAGE_TYPE_VOICE.value()) {
             child = "recv_voice";
+        } else if (type == MessageType.MESSAGE_TYPE_FILE.value()) {
+            child = "recv_file";
         }
         File file;
         if(ValueUtil.isEmpty(child)) {

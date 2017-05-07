@@ -147,6 +147,7 @@ public class ChatActivity extends BaseChatActivity {
         final OutgoingFileTransfer transfer = SmackManager.getInstance().getSendFileTransfer(filter.filterFileJid(FileJIDFilter));
         try {
             transfer.sendFile(file, String.valueOf(messageType));
+//            transfer.sendFile(file, String.valueOf(messageType) + "\t" + mChatUser.getMeNickname());
             checkTransferStatus(transfer, file, messageType, true, file.length());
         } catch (SmackException e) {
             Logger.e(e, "send file failure");

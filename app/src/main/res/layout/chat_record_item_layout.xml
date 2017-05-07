@@ -26,7 +26,7 @@
             android:id="@+id/chat_friend_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_18"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="@color/black"/>
         <TextView
@@ -55,7 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dimen_5"/>
+            android:layout_marginTop="@dimen/dimen_5"
+            android:textColor="@color/red"/>
     </LinearLayout>
 
 
