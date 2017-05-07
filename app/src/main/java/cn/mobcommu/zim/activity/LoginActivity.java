@@ -65,6 +65,7 @@ public class LoginActivity extends IMBaseActivity {
      */
     private String user1;
     private String friend_name;
+    private String friend_nickname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class LoginActivity extends IMBaseActivity {
         Intent intent = getIntent();
         user1 = intent.getStringExtra("user1");
         friend_name = intent.getStringExtra("user2");
+        friend_nickname = intent.getStringExtra("user2_nick");
 
         initViews();
         initUserInfo();
@@ -170,7 +172,7 @@ public class LoginActivity extends IMBaseActivity {
 
                         // 必须是user1登录才可以添加好友
                         if (friend_name != null && loginResult.getUser().getUsername().equals(user1)) {
-                            addFriend(friend_name, friend_name);
+                            addFriend(friend_name, friend_nickname);
                         }
 
                         ActivityUtil.skipActivity(LoginActivity.this, MainActivity.class);

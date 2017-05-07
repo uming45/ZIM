@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.orhanobut.logger.Logger;
+
 import org.greenrobot.eventbus.EventBus;
 import org.jivesoftware.smack.roster.RosterEntry;
 
@@ -41,6 +43,11 @@ public class AutoAddFriends extends AppCompatActivity {
         Uri myUri = getIntent().getData();
         final String user1 = myUri.getQueryParameter("user1");
         final String user2 = myUri.getQueryParameter("user2");
+        final String user2_nick = myUri.getQueryParameter("user2_nick");
+
+//        Logger.d("wangdsh user1: " + user1, "ddd");
+//        Logger.d("wangdsh user2: " + user2, "ddd");
+//        Logger.d("wangdsh user2_nick: " + user2_nick, "ddd");
 
         // 判断用户user1是否已登录
         User user = LoginHelper.getUser();
@@ -50,6 +57,7 @@ public class AutoAddFriends extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("user1", user1);
             intent.putExtra("user2", user2);
+            intent.putExtra("user2_nick", user2_nick);
             startActivity(intent); // 跳转到登录界面
             ActivityUtil.finishActivity(AutoAddFriends.this);
 
@@ -79,7 +87,7 @@ public class AutoAddFriends extends AppCompatActivity {
                             if (loginResult.isSuccess()) {
                                 // 为user1添加好友user2(防止用户登录其他账户)
                                 if (loginResult.getUser().getUsername().equals(user1)) {
-                                    addFriend(user2, user2);
+                                    addFriend(user2, user2_nick);
                                 }
 
                                 ActivityUtil.skipActivity(AutoAddFriends.this, MainActivity.class);
