@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jivesoftware.smack.roster.RosterEntry;
+
 import java.util.List;
 
 /**
@@ -51,6 +53,9 @@ public class ContactAdapter extends IndexStickyViewAdapter<ContactEntity> {
 
         ContactViewHolder viewHolder = (ContactViewHolder) holder;
         viewHolder.getImageView().setImageResource(R.drawable.vector_contact_focus);
-        viewHolder.getTextView().setText(itemData.getRosterEntry().getName());
+        // 依据ofRoster表，联系人显示格式为: nick (jid)
+        RosterEntry rosterEntry = itemData.getRosterEntry();
+        String contactDisplayText = rosterEntry.getName() + " (" + rosterEntry.getUser() + ")";
+        viewHolder.getTextView().setText(contactDisplayText);
     }
 }

@@ -49,7 +49,11 @@ public class ChatRecordAdapter extends HeaderAndFooterAdapter<ChatRecord> {
         if(!ValueUtil.isEmpty(item.getFriendAvatar())) {
             ImageLoaderHelper.displayImage(viewHolder.avatar, item.getFriendAvatar());
         }
-        viewHolder.nickName.setText(item.getFriendNickname());
+
+        // 依据es_member表，消息列表联系人名字格式：name (uname)
+        viewHolder.nickName.setText(item.getFriendNickname() + " (" +
+                item.getFriendUsername() + ")");
+
         if(!ValueUtil.isEmpty(item.getLastMessage())) {
             if(viewHolder.message.getVisibility() == View.GONE) {
                 viewHolder.message.setVisibility(View.VISIBLE);
