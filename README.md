@@ -1,4 +1,8 @@
-ZIM
+# ZIM
 
-openfire添加系统属性：
-xmpp.proxy.externalip：值为外部IP
+# openfire system property<br>
+xmpp.proxy.externalip：IP<br>
+
+# plugin<br>
+Monitoring Service<br>
+Presence Service<br>
