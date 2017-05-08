@@ -4,13 +4,15 @@
         <item>@drawable/icon_chat_image</item>
         <item>@drawable/icon_chat_take_photo</item>
         <item>@drawable/icon_chat_file</item>
-        <!--<item>@drawable/icon_chat_file</item>-->
+        <item>@drawable/icon_prescription</item>
+        <item>@drawable/icon_checklist</item>
     </integer-array>
 
     <integer-array name="keyboard_more_names">
         <item>@string/keyboard_more_image</item>
         <item>@string/keyboard_more_take_photo</item>
         <item>@string/keyboard_more_file</item>
-        <!--<item>@string/keyboard_more_prescription</item>-->
+        <item>@string/keyboard_more_prescription</item>
+        <item>@string/keyboard_more_checklist</item>
     </integer-array>
 </resources>

@@ -21,7 +21,11 @@ public enum KeyBoardMoreFunType {
     /**
      * 开处方
      */
-    FUN_TYPE_PRESCRIPTION(3);
+    FUN_TYPE_PRESCRIPTION(3),
+    /**
+     * 开检查单
+     */
+    FUN_TYPE_CHECKLIST(4);
 
     int value;
 
@@ -45,6 +49,8 @@ public enum KeyBoardMoreFunType {
             return FUN_TYPE_FILE;
         } else if(value == FUN_TYPE_PRESCRIPTION.value()) {
             return FUN_TYPE_PRESCRIPTION;
+        } else if(value == FUN_TYPE_CHECKLIST.value()) {
+            return FUN_TYPE_CHECKLIST;
         } else {
             return NONE;
         }
