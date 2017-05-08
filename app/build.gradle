@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "cn.mobcommu.zim"
-        minSdkVersion 14
+        minSdkVersion 18
         targetSdkVersion 18
         versionCode 2
         versionName "2.0"
