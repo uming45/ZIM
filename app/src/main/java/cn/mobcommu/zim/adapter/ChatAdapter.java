@@ -13,6 +13,7 @@ import cn.mobcommu.zim.ui.recyclerview.HeaderAndFooterAdapter;
 import cn.mobcommu.zim.ui.recyclerview.ViewHolder;
 import cn.mobcommu.zim.util.AppFileHelper;
 import cn.mobcommu.zim.util.ChatTimeUtil;
+import cn.mobcommu.zim.util.DBHelper;
 import cn.mobcommu.zim.util.EmotionUtil;
 import cn.mobcommu.zim.util.ImageLoaderHelper;
 
@@ -28,6 +29,7 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -90,7 +92,7 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
         }
 
         viewHolder.chatContentTime.setText(ChatTimeUtil.getFriendlyTimeSpanByNow(message.getDatetime()));
-        setMessageViewVisible(message.getMessageType(), viewHolder); // 根据消息类型显示对应的消息展示控件
+        setMessageViewVisible(message, viewHolder); // 根据消息类型显示对应的消息展示控件
 
         if (message.getMessageType() == MessageType.MESSAGE_TYPE_TEXT.value()) { //文本消息
             //处理表情
@@ -116,13 +118,26 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
 
         } else if (message.getMessageType() == MessageType.MESSAGE_TYPE_VOICE.value()) { //语音消息
 
-            viewHolder.chatContentVoice.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            if (message.getIsPlayed() == 1) { // 已播放
+                viewHolder.chatContentVoice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    playVoice(viewHolder.chatContentVoice, message);
-                }
-            });
+                        playVoice(viewHolder.chatContentVoice, message);
+                    }
+                });
+            } else {
+                viewHolder.chatContentVoice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        playVoice(viewHolder.chatContentVoice_N_play, message);
+                        message.setIsPlayed();
+                        DBHelper.getInstance().getSQLiteDB().update(message);
+                        viewHolder.dotForVoice.setVisibility(View.GONE);
+                    }
+                });
+            }
 
             showLoading(viewHolder, message);
 
@@ -208,10 +223,12 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
     /**
      * 根据消息类型显示对应的消息展示控件
      *
-     * @param messageType
+     * @param chatMessage
      * @param viewHolder
      */
-    private void setMessageViewVisible(int messageType, ChatViewHolder viewHolder) {
+    private void setMessageViewVisible(ChatMessage chatMessage, ChatViewHolder viewHolder) {
+
+        int messageType = chatMessage.getMessageType();
 
         if (messageType == MessageType.MESSAGE_TYPE_TEXT.value()) {//文本消息
             viewHolder.chatContentText.setVisibility(View.VISIBLE);
@@ -227,7 +244,11 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
             viewHolder.chatContentText.setVisibility(View.GONE);
             viewHolder.chatContentImage.setVisibility(View.GONE);
             viewHolder.chatContentFile.setVisibility(View.GONE);
-            viewHolder.chatContentVoice.setVisibility(View.VISIBLE);
+            if (chatMessage.getIsPlayed() == 1) { // 已播放
+                viewHolder.chatContentVoice.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.chatContentVoice_N_play.setVisibility(View.VISIBLE);
+            }
         } else if (messageType == MessageType.MESSAGE_TYPE_FILE.value()) { //文件消息
             viewHolder.chatContentText.setVisibility(View.GONE);
             viewHolder.chatContentImage.setVisibility(View.GONE);
@@ -243,6 +264,71 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
      * @param message
      */
     private void playVoice(final ImageView iv, final ChatMessage message) {
+
+        if (message.isMeSend()) {
+            iv.setBackgroundResource(R.drawable.anim_chat_voice_right);
+        } else {
+            iv.setBackgroundResource(R.drawable.anim_chat_voice_left);
+        }
+        final AnimationDrawable animationDrawable = (AnimationDrawable) iv.getBackground();
+        iv.post(new Runnable() {
+            @Override
+            public void run() {
+
+                animationDrawable.start();
+            }
+        });
+        if (mediaPlayer == null || !mediaPlayer.isPlaying()) {//点击播放，再次点击停止播放
+            // 开始播放录音
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+
+                    animationDrawable.stop();
+                    // 恢复语音消息图标背景
+                    if (message.isMeSend()) {
+                        iv.setBackgroundResource(R.drawable.gxu);
+                    } else {
+                        iv.setBackgroundResource(R.drawable.gxx);
+                    }
+                }
+            });
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(message.getFilePath());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            animationDrawable.stop();
+            // 恢复语音消息图标背景
+            if (message.isMeSend()) {
+                iv.setBackgroundResource(R.drawable.gxu);
+            } else {
+                iv.setBackgroundResource(R.drawable.gxx);
+            }
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
+        }
+    }
+
+    /**
+     * 播放语音信息
+     *
+     * @param iv
+     * @param message
+     */
+    private void playVoice(final RelativeLayout iv, final ChatMessage message) {
 
         if (message.isMeSend()) {
             iv.setBackgroundResource(R.drawable.anim_chat_voice_right);
@@ -319,6 +405,13 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
 
         @BindView(R.id.iv_chat_msg_content_voice)
         public ImageView chatContentVoice;//语音消息
+
+        @BindView(R.id.iv_chat_msg_content_voice_N_play)
+        public RelativeLayout chatContentVoice_N_play; //没有播放过的语音消息
+
+        @BindView(R.id.dot_for_voice)
+        public ImageView dotForVoice; // 小红点
+
         @BindView(R.id.iv_chat_msg_content_loading)
         public ImageView chatContentLoading;//发送接收文件时的进度条
 

@@ -214,6 +214,15 @@ public class ChatActivity extends BaseChatActivity {
         msg.setMeNickname(mChatUser.getMeNickname());
         msg.setFilePath(file.getAbsolutePath());
         msg.setFileSize(filesize);
+
+        if (msg.getMessageType() == MessageType.MESSAGE_TYPE_VOICE.value()) {
+            if (msg.isMeSend()) {
+                msg.setIsPlayed(); // 自己发送的语音，标为已播放
+            } else {
+                msg.setIsNotPlayed(); // 收到的语音，初始为未播放
+            }
+        }
+
 //        DBHelper.getInstance().getSQLiteDB().save(msg); // 此处注释掉4.13
 
         Observable.create(new Observable.OnSubscribe<ChatMessage>(){

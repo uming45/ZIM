@@ -87,6 +87,12 @@ public class ChatMessage implements Parcelable {
     @Column(columnName = "isMulti")
     private boolean mIsMulti = false;
 
+    /**
+     * 语音是否已经点击播放
+     */
+    @Column(columnName = "isPlayed")
+    private int mIsPlayed;
+
     public ChatMessage() {
 
     }
@@ -226,6 +232,18 @@ public class ChatMessage implements Parcelable {
     public void setMulti(boolean multi) {
 
         mIsMulti = multi;
+    }
+
+    public int getIsPlayed() {
+        return mIsPlayed;
+    }
+
+    public void setIsPlayed() {
+        mIsPlayed = 1;
+    }
+
+    public void setIsNotPlayed() {
+        mIsPlayed = 0;
     }
 
     @Override
