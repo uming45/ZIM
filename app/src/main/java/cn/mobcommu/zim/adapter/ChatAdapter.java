@@ -127,7 +127,7 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
                     }
                 });
             } else {
-                viewHolder.chatContentVoice.setOnClickListener(new View.OnClickListener() {
+                viewHolder.chatContentVoice_N_play.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -235,11 +235,13 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
             viewHolder.chatContentImage.setVisibility(View.GONE);
             viewHolder.chatContentFile.setVisibility(View.GONE);
             viewHolder.chatContentVoice.setVisibility(View.GONE);
+            viewHolder.chatContentVoice_N_play.setVisibility(View.GONE);
         } else if (messageType == MessageType.MESSAGE_TYPE_IMAGE.value()) {//图片消息
             viewHolder.chatContentText.setVisibility(View.GONE);
             viewHolder.chatContentImage.setVisibility(View.VISIBLE);
             viewHolder.chatContentFile.setVisibility(View.GONE);
             viewHolder.chatContentVoice.setVisibility(View.GONE);
+            viewHolder.chatContentVoice_N_play.setVisibility(View.GONE);
         } else if (messageType == MessageType.MESSAGE_TYPE_VOICE.value()) {//语音消息
             viewHolder.chatContentText.setVisibility(View.GONE);
             viewHolder.chatContentImage.setVisibility(View.GONE);
@@ -254,6 +256,7 @@ public class ChatAdapter extends HeaderAndFooterAdapter<ChatMessage> {
             viewHolder.chatContentImage.setVisibility(View.GONE);
             viewHolder.chatContentFile.setVisibility(View.VISIBLE);
             viewHolder.chatContentVoice.setVisibility(View.GONE);
+            viewHolder.chatContentVoice_N_play.setVisibility(View.GONE);
         }
     }
 
