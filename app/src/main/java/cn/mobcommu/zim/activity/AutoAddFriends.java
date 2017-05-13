@@ -73,6 +73,11 @@ public class AutoAddFriends extends AppCompatActivity {
             intent.putExtra("user1", user1);
             intent.putExtra("user2", user2);
             intent.putExtra("user2_nick", user2_nick);
+            if (!username.equals(user1)) {
+                intent.putExtra("new_user", "true");
+            } else {
+                intent.putExtra("new_user", "false");
+            }
             startActivity(intent); // 跳转到登录界面
             ActivityUtil.finishActivity(AutoAddFriends.this);
 

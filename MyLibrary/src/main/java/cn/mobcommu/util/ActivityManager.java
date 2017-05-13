@@ -117,4 +117,11 @@ public class ActivityManager {
             endActivity(activity);
         }
     }
+
+    /**
+     * 当前栈大小
+     */
+    public int getStackSize () {
+        return activityStack.size();
+    }
 }

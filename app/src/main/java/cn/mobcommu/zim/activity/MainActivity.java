@@ -234,9 +234,13 @@ FragmentSaveStateTabHost mTabHost;
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         if (SmackManager.issSmackManager()) {
-            SmackListenerManager.getInstance().destroy();
-            SmackManager.getInstance().logout();
-            SmackManager.getInstance().disconnect();
+            try {
+                SmackListenerManager.getInstance().destroy(); // 必须删除监听，否则登录另一个用户，第一次登录不上
+                SmackManager.getInstance().logout();
+                SmackManager.getInstance().disconnect();
+            } catch (Exception e) {
+                // 第一行会有异常，暂不对异常进行处理
+            }
         }
     }
 

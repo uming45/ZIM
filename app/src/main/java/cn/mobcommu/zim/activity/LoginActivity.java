@@ -66,6 +66,10 @@ public class LoginActivity extends IMBaseActivity {
     private String user1;
     private String friend_name;
     private String friend_nickname;
+    /**
+     * 是否为新用户，为新用户自动填充用户名
+     */
+    private String new_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,7 @@ public class LoginActivity extends IMBaseActivity {
         user1 = intent.getStringExtra("user1");
         friend_name = intent.getStringExtra("user2");
         friend_nickname = intent.getStringExtra("user2_nick");
+        new_user = intent.getStringExtra("new_user");
 
         initViews();
         initUserInfo();
@@ -114,10 +119,15 @@ public class LoginActivity extends IMBaseActivity {
     private void initUserInfo() {
 
         boolean isRemember = LoginHelper.isRememberPassword();
-        if (isRemember) {
-            User user = LoginHelper.getUser();
-            mEditTextUser.setText(user.getUsername());
-            mEditTextPwd.setText(user.getPassword());
+        if (new_user == null || "false".equals(new_user)) {
+            if (isRemember) {
+                User user = LoginHelper.getUser();
+                mEditTextUser.setText(user.getUsername());
+                mEditTextPwd.setText(user.getPassword());
+            }
+        } else { // 从开始咨询跳转过来，为新用户，帮助填充用户名
+            mEditTextUser.setText(user1);
+            mEditTextPwd.setText("");
         }
         mCbRememberPassword.setChecked(isRemember);
     }
