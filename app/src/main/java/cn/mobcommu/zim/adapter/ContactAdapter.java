@@ -51,11 +51,17 @@ public class ContactAdapter extends IndexStickyViewAdapter<ContactEntity> {
     @Override
     public void onBindContentViewHolder(RecyclerView.ViewHolder holder, int position, ContactEntity itemData) {
 
+        int presence = itemData.getPresence(); // 是否在线
         ContactViewHolder viewHolder = (ContactViewHolder) holder;
-        viewHolder.getImageView().setImageResource(R.drawable.vector_contact_focus);
+        if (presence == 1) {
+            viewHolder.getImageView().setImageResource(R.drawable.vector_contact_focus);
+        } else {
+            viewHolder.getImageView().setImageResource(R.drawable.vector_contact_focus_absence);
+        }
         // 依据ofRoster表，联系人显示格式为: nick (jid)
         RosterEntry rosterEntry = itemData.getRosterEntry();
         String contactDisplayText = rosterEntry.getName() + " (" + rosterEntry.getUser() + ")";
+
         viewHolder.getTextView().setText(contactDisplayText);
     }
 }

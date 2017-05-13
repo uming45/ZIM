@@ -85,6 +85,45 @@ public class ChatActivity extends BaseChatActivity {
 
         mChat = SmackManager.getInstance().createChat(mChatUser.getChatJid());
         addReceiveFileListener();
+
+        // 添加在线/离线信息
+        String friendUsername = mChatUser.getFriendUsername(); // 好友用户名
+        final String strUrl = "http://" + Constant.SERVER_IP +
+                ":9090/plugins/presence/status?jid=" +
+                friendUsername + "@" + Constant.SERVER_NAME + "&type=xml";
+
+        Observable.create(new Observable.OnSubscribe<Integer>() {
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                // 0 - 用户不存在; 1 - 用户在线; 2 - 用户离线
+                int tmp_state = PresenceUtil.IsUserOnLine(strUrl);
+                subscriber.onNext(new Integer(tmp_state));
+                subscriber.onCompleted();
+            }
+        })
+        .subscribeOn(Schedulers.io()) //指定上面的Subscriber线程
+        .observeOn(AndroidSchedulers.mainThread()) //指定下面的回调线程
+        .subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer state) {
+
+                if (state != 1) {
+                    mToolbarTitle.setText(mChatUser.getFriendNickname() + "[离线]");
+                } else { // 好友在线
+                    mToolbarTitle.setText(mChatUser.getFriendNickname() + "[在线]");
+                }
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

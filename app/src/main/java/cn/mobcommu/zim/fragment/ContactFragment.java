@@ -4,6 +4,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.mobcommu.base.BaseFragment;
 import cn.mobcommu.zim.adapter.ContactAdapter;
+import cn.mobcommu.zim.constant.Constant;
 import cn.mobcommu.zim.decoration.ContactItemDecoration;
 import cn.mobcommu.zim.adapter.viewholder.ContactViewHolder;
 import cn.mobcommu.zim.bean.ContactEntity;
@@ -14,10 +15,10 @@ import cn.ittiger.indexlist.IndexStickyView;
 import cn.ittiger.indexlist.adapter.IndexHeaderFooterAdapter;
 import cn.ittiger.indexlist.listener.OnItemClickListener;
 import cn.mobcommu.util.UIUtil;
+import cn.mobcommu.zim.util.PresenceUtil;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 import com.orhanobut.logger.Logger;
@@ -80,8 +81,16 @@ public class ContactFragment extends BaseFragment {
 
                 Set<RosterEntry> friends = SmackManager.getInstance().getAllFriends();
                 List<ContactEntity> list = new ArrayList<>();
+
                 for (RosterEntry friend : friends) {
-                    list.add(new ContactEntity(friend));
+
+                    // 目前这种设计假装速度慢，有待改进
+                    final String strUrl = "http://" + Constant.SERVER_IP +
+                            ":9090/plugins/presence/status?jid=" +
+                            friend.getUser() + "@" + Constant.SERVER_NAME + "&type=xml";
+                    int tmp_state = PresenceUtil.IsUserOnLine(strUrl);
+
+                    list.add(new ContactEntity(friend, tmp_state));
                 }
                 subscriber.onNext(list);
                 subscriber.onCompleted();

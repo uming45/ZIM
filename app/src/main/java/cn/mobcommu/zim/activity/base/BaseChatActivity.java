@@ -35,7 +35,7 @@ public abstract class BaseChatActivity extends IMBaseActivity implements ChatKey
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.toolbarTitle)
-    TextView mToolbarTitle;
+    public TextView mToolbarTitle;
     /**
      * 聊天内容展示列表
      */

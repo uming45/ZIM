@@ -9,10 +9,18 @@ import org.jivesoftware.smack.roster.RosterEntry;
  */
 public class ContactEntity implements BaseEntity {
     private RosterEntry mRosterEntry;
+    private int presence;
 
     public ContactEntity(RosterEntry rosterEntry) {
 
         mRosterEntry = rosterEntry;
+        presence = -1;
+    }
+
+    public ContactEntity(RosterEntry rosterEntry, int presence) {
+
+        mRosterEntry = rosterEntry;
+        this.presence = presence;
     }
 
     @Override
@@ -24,5 +32,9 @@ public class ContactEntity implements BaseEntity {
     public RosterEntry getRosterEntry() {
 
         return mRosterEntry;
+    }
+
+    public int getPresence() {
+        return presence;
     }
 }
