@@ -149,6 +149,10 @@ public class LoginActivity extends IMBaseActivity {
                 @Override
                 public Observable<LoginResult> call(User user) {
 
+                    // 判断上次登录用户和本次登录用户是否相同，不同则清空LoginHelper中的loginresult
+                    if (!username.equals(LoginHelper.getUser().getUsername())) {
+                        LoginHelper.setLoginResult(null);
+                    }
                     LoginResult loginResult = SmackManager.getInstance().login(username, password);
                     return Observable.just(loginResult);
                 }

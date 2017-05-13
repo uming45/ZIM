@@ -233,9 +233,11 @@ FragmentSaveStateTabHost mTabHost;
 
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        SmackListenerManager.getInstance().destroy();
-        SmackManager.getInstance().logout();
-        SmackManager.getInstance().disconnect();
+        if (SmackManager.issSmackManager()) {
+            SmackListenerManager.getInstance().destroy();
+            SmackManager.getInstance().logout();
+            SmackManager.getInstance().disconnect();
+        }
     }
 
     @Override

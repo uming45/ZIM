@@ -1,6 +1,7 @@
 package cn.mobcommu.base;
 
 import cn.mobcommu.R;
+import cn.mobcommu.util.ActivityManager;
 import cn.mobcommu.util.PageLoadingHelper;
 
 import android.os.Bundle;
@@ -18,12 +19,22 @@ public class BaseActivity extends AppCompatActivity {
 
     protected BaseActivity mActivity;
     private PageLoadingHelper mPageLoadingHelper;
+    private ActivityManager activityManager = null; // activity管理类
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         mActivity = BaseActivity.this;
+        // 添加到activity管理类
+        activityManager = ActivityManager.getInstance();
+        activityManager.pushActivity(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activityManager.endActivity(this);
     }
 
     @Override
@@ -167,6 +178,7 @@ public class BaseActivity extends AppCompatActivity {
     private void exitApp() {
 
         super.onBackPressed();
+        ActivityManager.getInstance().finishAllActivity();
         System.exit(0);
         android.os.Process.killProcess(android.os.Process.myPid());
     }

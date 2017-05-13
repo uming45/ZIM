@@ -173,7 +173,10 @@ public class SmackManager {
                 return loginResult;
             }
 
-            disconnect(); // 先断开连接
+            if (mConnection != null) {
+                disconnect(); // 先断开连接
+            }
+
             if (!isConnected()) {
                 throw new IllegalStateException("服务器断开，请先连接服务器");
             }
@@ -530,6 +533,17 @@ public class SmackManager {
     }
 
     /**
+     * 获取文件传输管理器
+     * @return
+     */
+    public FileTransferManager getFileTransferManager() {
+        if (isConnected()) {
+            return FileTransferManager.getInstanceFor(mConnection);
+        }
+        throw new NullPointerException("服务器连接失败，请先连接服务器");
+    }
+
+    /**
      * 获取文件传输的完全限定Jid The fully qualified jabber ID (i.e. full JID) with resource of the user to
      * send the file to.
      *
@@ -589,5 +603,23 @@ public class SmackManager {
             throw new NullPointerException("服务器连接失败，请先连接服务器");
         }
         return ServiceDiscoveryManager.getInstanceFor(mConnection);
+    }
+
+    /**
+     * 销毁mConnection
+     */
+    public void destroymConnection() {
+        if (mConnection != null) {
+            mConnection.disconnect();
+        }
+        mConnection = null;
+
+    }
+
+    /**
+     * 判断sSmackManager是否存在
+     */
+    public static boolean issSmackManager() {
+        return sSmackManager== null ? false : true;
     }
 }

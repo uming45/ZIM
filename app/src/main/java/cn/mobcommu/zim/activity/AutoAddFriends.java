@@ -10,6 +10,7 @@ import com.orhanobut.logger.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.jivesoftware.smack.roster.RosterEntry;
 
+import cn.mobcommu.util.ActivityManager;
 import cn.mobcommu.zim.bean.ContactEntity;
 import cn.mobcommu.zim.bean.LoginResult;
 import cn.mobcommu.zim.bean.User;
@@ -17,6 +18,7 @@ import cn.mobcommu.zim.smack.SmackManager;
 import cn.mobcommu.zim.util.LoginHelper;
 import cn.mobcommu.util.ActivityUtil;
 import cn.mobcommu.util.UIUtil;
+import cn.mobcommu.zim.util.PresenceUtil;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -45,14 +47,27 @@ public class AutoAddFriends extends AppCompatActivity {
         final String user2 = myUri.getQueryParameter("user2");
         final String user2_nick = myUri.getQueryParameter("user2_nick");
 
-//        Logger.d("wangdsh user1: " + user1, "ddd");
-//        Logger.d("wangdsh user2: " + user2, "ddd");
-//        Logger.d("wangdsh user2_nick: " + user2_nick, "ddd");
+        // just for test
+        Logger.d("wangdsh user1: " + user1, "ddd");
+        Logger.d("wangdsh user2: " + user2, "ddd");
+        Logger.d("wangdsh user2_nick: " + user2_nick, "ddd");
 
         // 判断用户user1是否已登录
         User user = LoginHelper.getUser();
         final String username = user.getUsername();
         if ("".equals(username) || !username.equals(user1)) { // 未登录
+
+            // 处理一种特殊bug：上个用户没退出时，新用户登录到上一个用户
+            if (SmackManager.issSmackManager()) {
+
+                String cur_user = SmackManager.getInstance().getConnection().getUser(); // jk_jk@laboratory/Smack
+                cur_user = cur_user.substring(0, cur_user.indexOf('@'));
+
+                if (!user1.equals(cur_user)) {
+                    SmackManager.getInstance().destroymConnection(); // 删除连接, 不然报错Client is already logged in
+                    ActivityManager.getInstance().finishAllActivity(); // 结束所有Activity
+                }
+            }
 
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("user1", user1);
