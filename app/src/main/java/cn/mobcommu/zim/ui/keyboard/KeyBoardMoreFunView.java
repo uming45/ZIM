@@ -2,10 +2,12 @@ package cn.mobcommu.zim.ui.keyboard;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.mobcommu.zim.R;
 import cn.mobcommu.zim.constant.KeyBoardMoreFunType;
 import cn.mobcommu.zim.ui.recyclerview.CommonRecyclerView;
 import cn.mobcommu.zim.ui.recyclerview.HeaderAndFooterAdapter;
 import cn.mobcommu.zim.ui.recyclerview.ViewHolder;
+import cn.mobcommu.zim.util.LoginHelper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -53,8 +55,18 @@ public class KeyBoardMoreFunView extends FrameLayout implements CommonRecyclerVi
         mRecyclerView.setLayoutManager(new GridLayoutManager(context, 4));
         mRecyclerView.setOnItemClickListener(this);
 
-        TypedArray iconAr = context.getResources().obtainTypedArray(cn.mobcommu.zim.R.array.keyboard_more_icons);
-        TypedArray nameAr = context.getResources().obtainTypedArray(cn.mobcommu.zim.R.array.keyboard_more_names);
+        int icons_array;
+        int names_array;
+        if ("doctor".equals(LoginHelper.getUserType())) {
+            icons_array = R.array.keyboard_more_icons_doctor;
+            names_array = R.array.keyboard_more_names_doctor;
+        } else {
+            icons_array = R.array.keyboard_more_icons;
+            names_array = R.array.keyboard_more_names;
+        }
+
+        TypedArray iconAr = context.getResources().obtainTypedArray(icons_array);
+        TypedArray nameAr = context.getResources().obtainTypedArray(names_array);
         if(iconAr.length() != nameAr.length()) {
             throw new IllegalArgumentException("array keyboard_more_icons's length must be equals to array keyboard_more_names");
         }

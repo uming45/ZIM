@@ -9,6 +9,7 @@ public class LoginHelper {
     private static final String KEY_REMEMBER_PASSWORD = "pre_key_remember_password";
     private static final String KEY_USER = "pre_key_user";
     private static LoginResult loginResult;
+    private static String userType; // 用户类型： user store doctor
 
     /**
      * 是否记住密码
@@ -45,5 +46,13 @@ public class LoginHelper {
 
     public static void setLoginResult(LoginResult lr) {
         loginResult = lr;
+    }
+
+    public static void setUserType(String userType) {
+        LoginHelper.userType = userType;
+    }
+
+    public static String getUserType() {
+        return userType;
     }
 }

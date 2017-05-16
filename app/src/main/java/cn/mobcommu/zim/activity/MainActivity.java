@@ -3,6 +3,7 @@ package cn.mobcommu.zim.activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -18,16 +19,21 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.mobcommu.zim.activity.base.IMBaseActivity;
+import cn.mobcommu.zim.constant.Constant;
 import cn.mobcommu.zim.fragment.ContactFragment;
 import cn.mobcommu.zim.fragment.MessageFragment;
 import cn.mobcommu.zim.smack.SmackListenerManager;
 import cn.mobcommu.zim.smack.SmackManager;
 import cn.mobcommu.zim.ui.FragmentSaveStateTabHost;
 import cn.mobcommu.zim.util.IntentHelper;
+import cn.mobcommu.zim.util.LoginHelper;
+import cn.mobcommu.zim.util.NetUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * 主页面
@@ -251,6 +257,37 @@ FragmentSaveStateTabHost mTabHost;
         if(!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+
+        // 异步调用，查询当前用户的类型 user or doctor
+        getUserType(LoginHelper.getUser().getUsername(), Constant.API_SERVER_IP);
+    }
+
+    /**
+     * 异步调用，获取当前用户的用户类型，user store, doctor
+     */
+    private void getUserType(String username, String ip) {
+
+        final String url = "http://" + ip + "/b2b2c/api/mobile/doctor/getUserCategery.do?username=" + username;
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final String response = NetUtils.get(url);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String userType = jsonObject.getString("data");
+                            LoginHelper.setUserType(userType);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }).start();
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
