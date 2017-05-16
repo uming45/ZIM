@@ -459,6 +459,37 @@ public class SmackManager {
     }
 
     /**
+     * 获取当前登录用户的所有好友信息
+     *
+     * @return
+     */
+    public void reloadAllFriends() {
+
+        if (isConnected()) {
+            try {
+                Roster.getInstanceFor(mConnection).reload();
+            } catch (NotLoggedInException e) {
+                e.printStackTrace();
+            } catch (NotConnectedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 获取Roster
+     *
+     * @return
+     */
+//    public Roster getRoster() {
+//
+//        if (isConnected()) {
+//            return Roster.getInstanceFor(mConnection);
+//        }
+//        throw new NullPointerException("服务器连接失败，请先连接服务器");
+//    }
+
+    /**
      * 当前用户的某个好友的状态
      */
     public Presence getFriendPresence(String user) {  // not work now
