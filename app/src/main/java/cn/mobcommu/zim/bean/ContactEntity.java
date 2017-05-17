@@ -37,4 +37,8 @@ public class ContactEntity implements BaseEntity {
     public int getPresence() {
         return presence;
     }
+
+    public void setPresence(int presence) {
+        this.presence = presence;
+    }
 }

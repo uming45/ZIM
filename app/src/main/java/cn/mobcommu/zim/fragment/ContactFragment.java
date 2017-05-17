@@ -83,14 +83,7 @@ public class ContactFragment extends BaseFragment {
                 List<ContactEntity> list = new ArrayList<>();
 
                 for (RosterEntry friend : friends) {
-
-                    // 目前这种设计假装速度慢，有待改进
-                    final String strUrl = "http://" + Constant.SERVER_IP +
-                            ":9090/plugins/presence/status?jid=" +
-                            friend.getUser() + "@" + Constant.SERVER_NAME + "&type=xml";
-                    int tmp_state = PresenceUtil.IsUserOnLine(strUrl);
-
-                    list.add(new ContactEntity(friend, tmp_state));
+                    list.add(new ContactEntity(friend));
                 }
                 subscriber.onNext(list);
                 subscriber.onCompleted();
@@ -100,9 +93,7 @@ public class ContactFragment extends BaseFragment {
         .observeOn(AndroidSchedulers.mainThread())//指定下面的回调线程
         .subscribe(new Subscriber<List<ContactEntity>>() {
             @Override
-            public void onCompleted() {
-
-            }
+            public void onCompleted() {}
 
             @Override
             public void onError(Throwable throwable) {
@@ -121,8 +112,46 @@ public class ContactFragment extends BaseFragment {
                     mAdapter.reset(contacts);
                 }
                 refreshSuccess();
+                // 改进， 异步加载联系人状态
+                getContactsPresence(contacts);
             }
         });
+    }
+
+    /**
+     * 异步加载联系人状态
+     * @param contacts
+     */
+    protected void getContactsPresence(final List<ContactEntity> contacts) {
+        Observable.create(new Observable.OnSubscribe<List<ContactEntity>>() {
+            @Override
+            public void call(Subscriber<? super List<ContactEntity>> subscriber) {
+                for (ContactEntity contactEntity: contacts) {
+                    final String strUrl = "http://" + Constant.SERVER_IP +
+                            ":9090/plugins/presence/status?jid=" +
+                            contactEntity.getRosterEntry().getUser() + "@" + Constant.SERVER_NAME + "&type=xml";
+                    contactEntity.setPresence(PresenceUtil.IsUserOnLine(strUrl));
+                }
+                subscriber.onNext(contacts);
+                subscriber.onCompleted();
+            }
+        })
+        .subscribeOn(Schedulers.io())//指定上面的Subscriber线程
+        .observeOn(AndroidSchedulers.mainThread())//指定下面的回调线程
+        .subscribe(new Subscriber<List<ContactEntity>>() {
+            @Override
+            public void onCompleted() {}
+
+            @Override
+            public void onError(Throwable e) {}
+
+            @Override
+            public void onNext(List<ContactEntity> contactEntities) {
+                // 通知更新了数据
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     private IndexHeaderFooterAdapter<ContactMenuEntity> getHeaderMenuAdapter() {
